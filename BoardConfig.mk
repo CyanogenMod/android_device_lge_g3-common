@@ -29,6 +29,7 @@ TARGET_KRAIT_BIONIC_BBTHRESH := 64
 TARGET_KRAIT_BIONIC_PLDSIZE := 64
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Device
 TARGET_NO_BOOTLOADER := true
@@ -49,9 +50,9 @@ TARGET_QCOM_MEDIA_VARIANT := caf
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=d851 user_debug=31 msm_rtb.filter=0x0 androidboot.selinux=permissive
-BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x8000 --ramdisk_offset 0x2000000 --second_offset 0xf00000 --tags_offset 0x100
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --second_offset 0x0f00000 --tags_offset 0x0000100
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-TARGET_KERNEL_SOURCE := kernel/lge/msm8974ac
+TARGET_KERNEL_SOURCE := kernel/lge/d851
 TARGET_KERNEL_CONFIG := g3-tmo_us-perf_defconfig
 
 # GPS
