@@ -56,9 +56,19 @@ BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --s
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
 TARGET_KERNEL_SOURCE := kernel/lge/d851
 TARGET_KERNEL_CONFIG := g3-tmo_us-perf_defconfig
+BOARD_CUSTOM_BOOTIMG_MK := device/lge/d851/mkbootimg.mk
 
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
+
+BOARD_SEPOLICY_DIRS += \
+       device/lge/d851/sepolicy
+
+# The list below is order dependent
+BOARD_SEPOLICY_UNION += \
+       app.te \
+       device.te \
+       file_contexts
 
 # EGL
 BOARD_EGL_CFG := device/lge/d851/configs/egl.cfg
@@ -69,6 +79,9 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
 TARGET_USES_C2D_COMPOSITION := true
+
+HAVE_ADRENO_SOURCE:= false
+OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
