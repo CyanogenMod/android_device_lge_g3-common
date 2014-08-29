@@ -64,7 +64,7 @@ on init
     setprop vold.encrypt_progress ""
 
 on fs
-    mount_all ./fstab.d851
+    mount_all ./fstab.g3
 
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file

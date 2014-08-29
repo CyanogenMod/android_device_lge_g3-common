@@ -1,18 +1,18 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE		:= fstab.d851
+LOCAL_MODULE		:= fstab.g3
 LOCAL_MODULE_TAGS	:= optional eng
 LOCAL_MODULE_CLASS	:= ETC
-LOCAL_SRC_FILES		:= etc/fstab.d851
+LOCAL_SRC_FILES		:= etc/fstab.g3
 LOCAL_MODULE_PATH	:= $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE		:= init.d851.rc
+LOCAL_MODULE		:= init.g3.rc
 LOCAL_MODULE_TAGS	:= optional eng
 LOCAL_MODULE_CLASS	:= ETC
-LOCAL_SRC_FILES		:= etc/init.d851.rc
+LOCAL_SRC_FILES		:= etc/init.g3.rc
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
@@ -121,9 +121,9 @@ LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE            := ueventd.d851.rc
+LOCAL_MODULE            := ueventd.g3.rc
 LOCAL_MODULE_TAGS       := optional eng
 LOCAL_MODULE_CLASS      := ETC
-LOCAL_SRC_FILES         := etc/ueventd.d851.rc
+LOCAL_SRC_FILES         := etc/ueventd.g3.rc
 LOCAL_MODULE_PATH       := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
