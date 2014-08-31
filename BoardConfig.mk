@@ -48,27 +48,17 @@ TARGET_QCOM_DISPLAY_VARIANT := caf-new
 TARGET_QCOM_MEDIA_VARIANT := caf-new
 
 # Kernel
+TARGET_KERNEL_SOURCE := kernel/lge/d851
+TARGET_KERNEL_CONFIG := g3-tmo_us-perf_defconfig
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=g3 user_debug=31 msm_rtb.filter=0x0 androidboot.selinux=permissive
-BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --second_offset 0x0f00000 --tags_offset 0x0000100
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-TARGET_KERNEL_SOURCE := kernel/lge/d851
-TARGET_KERNEL_CONFIG := g3-tmo_us-perf_defconfig
-# BOARD_CUSTOM_BOOTIMG_MK := device/lge/d851/mkbootimg.mk
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --second_offset 0x0f00000 --tags_offset 0x0000100
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=g3 user_debug=31 msm_rtb.filter=0x0 androidboot.selinux=permissive
 
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
-
-BOARD_SEPOLICY_DIRS += \
-       device/lge/d851/sepolicy
-
-# The list below is order dependent
-BOARD_SEPOLICY_UNION += \
-       app.te \
-       device.te \
-       file_contexts
 
 # EGL
 BOARD_EGL_CFG := device/lge/d851/configs/egl.cfg
@@ -79,7 +69,6 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
 TARGET_USES_C2D_COMPOSITION := true
-
 HAVE_ADRENO_SOURCE:= false
 OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 
@@ -101,8 +90,8 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HOSTAPD_DRIVER        := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_AP      := "/system/etc/firmware/fw_bcmdhd_apsta.bin"
-WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_AP      := "/vendor/etc/firmware/fw_bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_STA     := "/vendor/etc/firmware/fw_bcmdhd.bin"
 
 # NFC
 BOARD_USES_SECURE_SERVICES := true
@@ -123,9 +112,18 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
 TARGET_PROVIDES_LIBLIGHT := true
-#BOARD_USES_QC_TIME_SERVICES := true
 
 BOARD_SUPPRESS_SECURE_ERASE := true
+
+#Sepolicy
+BOARD_SEPOLICY_DIRS += \
+       device/lge/d851/sepolicy
+
+# The list below is order dependent
+BOARD_SEPOLICY_UNION += \
+       app.te \
+       device.te \
+       file_contexts
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
