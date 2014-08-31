@@ -1,0 +1,2 @@
+#!/system/bin/sh
+/system/bin/logcat -d > /data/logcat2.out

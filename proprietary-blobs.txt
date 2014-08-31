@@ -1,29 +1,23 @@
 # Bluetooth
-#bin/btnvtool
-#bin/hci_qcomm_init
-#vendor/lib/libbtnv.so
-#vendor/lib/liboi_sbc_decoder.so
+bin/btnvtool
+bin/hci_qcomm_init
+vendor/lib/libbtnv.so
 
 # Perf
-#bin/mpdecision
-#vendor/lib/libqc-opt.so
+bin/mpdecision
+vendor/lib/libqc-opt.so
 
 # ADSP
-#bin/adsprpcd
-#vendor/lib/libadsprpc.so
-#vendor/lib/libfastcvadsp_stub.so
-#vendor/lib/libfastcvopt.so
-#vendor/lib/libscve.so
-#vendor/lib/libscve_stub.so
+bin/adsprpcd
+vendor/lib/libadsprpc.so
+vendor/lib/libfastcvadsp_stub.so
+vendor/lib/libfastcvopt.so
 
 # Audio
-#vendor/lib/libacdbloader.so
-#vendor/lib/libacdbrtac.so
-#vendor/lib/libadiertac.so
-#vendor/lib/libaudcal.so
-#vendor/lib/soundfx/libqcbassboost.so
-#vendor/lib/soundfx/libqcreverb.so
-#vendor/lib/soundfx/libqcvirt.so
+vendor/lib/libacdbloader.so
+vendor/lib/libacdbrtac.so
+vendor/lib/libadiertac.so
+vendor/lib/libaudcal.so
 
 # Venus (media) firmware
 etc/firmware/venus.b00
@@ -35,33 +29,29 @@ etc/firmware/venus.mbn
 etc/firmware/venus.mdt
 
 # DRM
-#bin/qseecomd
-#lib/libQSEEComAPI.so:vendor/lib/libQSEEComAPI.so
-#vendor/lib/libdrmdiag.so
-#vendor/lib/libdrmfs.so
-#vendor/lib/libdrmtime.so
-#vendor/lib/librpmb.so
-#vendor/lib/libssd.so
-#vendor/lib/libsecureui.so
-#vendor/lib/lib-sec-disp.so
-#vendor/lib/libStDrvInt.so
+bin/qseecomd
+vendor/lib/libdrmdiag.so
+vendor/lib/libdrmfs.so
+vendor/lib/libdrmtime.so
+vendor/lib/librpmb.so
+vendor/lib/libssd.so
+vendor/lib/libStDrvInt.so
 
 # GPS
-#-app/com.qualcomm.location.apk
-#bin/gsiff_daemon
-#bin/quipc_igsn
-#bin/quipc_main
-#etc/permissions/com.qualcomm.location.xml
-#lib/libloc_api_v02.so
-#lib/libloc_ds_api.so
-#vendor/lib/hw/flp.default.so
-#vendor/lib/libgeofence.so
-#vendor/lib/libizat_core.so
-#vendor/lib/liblbs_core.so
-#vendor/lib/liblocationservice.so
-#vendor/lib/libquipc_os_api.so
-#vendor/lib/libquipc_ulp_adapter.so
-#vendor/lib/libulp2.so
+app/com.qualcomm.location.apk
+bin/gsiff_daemon
+bin/quipc_igsn
+bin/quipc_main
+etc/permissions/com.qualcomm.location.xml
+lib/libloc_api_v02.so
+lib/libloc_ds_api.so
+vendor/lib/libgeofence.so
+vendor/lib/libizat_core.so
+vendor/lib/liblbs_core.so
+vendor/lib/liblocationservice.so
+vendor/lib/libquipc_os_api.so
+vendor/lib/libquipc_ulp_adapter.so
+vendor/lib/libulp2.so
 
 # Graphics
 vendor/lib/egl/eglsubAndroid.so
@@ -89,26 +79,24 @@ etc/firmware/a330_pfp.fw
 etc/firmware/a330_pm4.fw
 
 # Media
-#-vendor/lib/libHevcSwDecoder.so
-#vendor/lib/libI420colorconvert.so
-#vendor/lib/libmmosal.so
-#vendor/lib/libmmparser.so
-#vendor/lib/libmm-color-convertor.so
-#vendor/lib/libDivxDrm.so
-#vendor/lib/libExtendedExtractor.so
-#vendor/lib/libOmxAacDec.so
-#vendor/lib/libOmxAmrwbplusDec.so
-#vendor/lib/libOmxEvrcDec.so
-#vendor/lib/libOmxQcelp13Dec.so
-#vendor/lib/libOmxWmaDec.so
-#vendor/lib/libSHIMDivxDrm.so
+vendor/lib/libHevcSwDecoder.so
+vendor/lib/libI420colorconvert.so
+vendor/lib/libmmosal.so
+vendor/lib/libmmparser.so
+vendor/lib/libmm-color-convertor.so
+vendor/lib/libExtendedExtractor.so
+vendor/lib/libOmxAacDec.so
+vendor/lib/libOmxAmrwbplusDec.so
+vendor/lib/libOmxEvrcDec.so
+vendor/lib/libOmxQcelp13Dec.so
+vendor/lib/libOmxWmaDec.so
+vendor/lib/libSHIMDivxDrm.so
 
 # Postprocessing
-#-app/PPPreference.apk
-#bin/mm-pp-daemon
+bin/mm-pp-daemon
 vendor/lib/libdisp-aba.so
-#-vendor/lib/libmm-abl.so
-#vendor/lib/libmm-abl-oem.so
+vendor/lib/libmm-abl.so
+vendor/lib/libmm-abl-oem.so
 
 # Qualcomm framework
 bin/irsc_util
@@ -131,8 +119,8 @@ vendor/lib/libqmi_encdec.so
 vendor/lib/libqmiservices.so
 
 # Radio
-#-app/qcrilmsgtunnel.apk
-#-app/shutdownlistener.apk
+app/qcrilmsgtunnel.apk
+app/shutdownlistener.apk
 bin/netmgrd
 bin/qmuxd
 bin/radish
@@ -162,16 +150,11 @@ bin/time_daemon
 vendor/lib/libtime_genoff.so
 
 # Listen service
-#vendor/lib/liblistenhardware.so
-#vendor/lib/liblistenjni.so
-#-vendor/lib/liblisten.so
-#vendor/lib/liblistensoundmodel.so
+vendor/lib/liblistensoundmodel.so
 
 # QuickBoot
-#-app/QuickBoot.apk
+app/QuickBoot.apk
 
 # Fastcharge
-#bin/hvdcp
+bin/hvdcp
 
-# WiFi
-#lib/libwcnss_qmi.so

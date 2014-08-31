@@ -20,9 +20,6 @@
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=ptp
-
 PRODUCT_NAME := full_d851
 PRODUCT_DEVICE := d851
 PRODUCT_BRAND := Android
