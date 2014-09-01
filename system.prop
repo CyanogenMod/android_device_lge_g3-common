@@ -50,7 +50,7 @@ persist.sys.wfd.virtual=0
 persist.fuse_sdcard=true
 persist.data.netmgrd.qos.enable=false
 persist.timed.enable=true
-persist.sys.usb.config=boot,adb,mtp
+persist.sys.usb.config=adb,mtp
 persist.speaker.prot.enable=false
 persist.cne.feature=1
 
