@@ -28,7 +28,8 @@ PRODUCT_PACKAGES += \
     init.g3.rc \
     init.g3.usb.rc \
     init.g3.usb.sh \
-    ueventd.g3.rc
+    ueventd.g3.rc \
+    ueventd.rc
 
 # IDC
 PRODUCT_COPY_FILES += \
