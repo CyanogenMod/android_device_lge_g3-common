@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+LOCAL_PATH := device/lge/g3-common
+
 # CPU
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
@@ -35,7 +37,7 @@ ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := msm8974
-TARGET_BOOTLOADER_BOARD_NAME := d851
+TARGET_BOOTLOADER_BOARD_NAME := g3
 
 # QCOM
 BOARD_USES_QCOM_HARDWARE := true
@@ -48,20 +50,20 @@ TARGET_QCOM_DISPLAY_VARIANT := caf-new
 TARGET_QCOM_MEDIA_VARIANT := caf-new
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/lge/d851
-TARGET_KERNEL_CONFIG := g3-tmo_us-perf_defconfig
-BOARD_KERNEL_SEPARATED_DT := true
+TARGET_KERNEL_SOURCE := kernel/lge/g3
+TARGET_KERNEL_CONFIG := cyanogenmod_g3_defconfig
+# XXX BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000 --second_offset 0x0f00000 --tags_offset 0x0000100
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=g3 user_debug=31 msm_rtb.filter=0x0 androidboot.selinux=permissive
 
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
 
 # EGL
-BOARD_EGL_CFG := device/lge/d851/configs/egl.cfg
+BOARD_EGL_CFG := $(LOCAL_PATH)/configs/egl.cfg
 USE_OPENGL_RENDERER := true
 TARGET_USES_ION := true
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -80,7 +82,7 @@ AUDIO_FEATURE_DYNAMIC_VOLUME_MIXER := true
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/d851/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 # Wifi related defines
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
@@ -106,28 +108,19 @@ BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 
 # Recovery
 RECOVERY_FSTAB_VERSION := 2
-TARGET_RECOVERY_FSTAB := device/lge/d851/rootdir/etc/fstab.g3
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.g3
 
 TARGET_PROVIDES_LIBLIGHT := true
 
 BOARD_SUPPRESS_SECURE_ERASE := true
-
-#Sepolicy
-BOARD_SEPOLICY_DIRS += \
-       device/lge/d851/sepolicy
-
-# The list below is order dependent
-BOARD_SEPOLICY_UNION += \
-       app.te \
-       device.te \
-       file_contexts
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 COMMON_GLOBAL_CFLAGS += -DLG_CAMERA_HARDWARE -DLPA_DEFAULT_BUFFER_SIZE=512
 
--include vendor/lge/d851/BoardConfigVendor.mk
+# inherit from the proprietary version
+-include vendor/lge/g3-common/BoardConfigVendor.mk
