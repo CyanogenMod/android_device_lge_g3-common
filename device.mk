@@ -26,20 +26,7 @@ DEVICE_PACKAGE_OVERLAYS := \
 PRODUCT_PACKAGES += \
     fstab.g3 \
     init.g3.rc \
-    init.galbi.class_core.sh \
-    init.galbi.class_main.sh \
-    init.galbi.crash.sh \
-    init.galbi.early_boot.sh \
-    init.galbi.sh \
-    init.galbi.syspart_fixup.sh \
-    init.galbi.usb.sh \
-    init.galbi-sensor.sh \
-    init.lge.cmm.usb.sh \
-    init.lge.usb.rc \
-    init.lge.usb.sh \
-    init.trace.rc \
-    set_emmc_size.sh \
-    init.logcat.sh \
+    init.g3.usb.rc \
     ueventd.g3.rc
 
 # IDC
