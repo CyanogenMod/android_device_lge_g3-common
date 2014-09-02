@@ -30,9 +30,7 @@ debug.qualcomm.sns.hal=i
 debug.qualcomm.sns.daemon=i
 debug.qualcomm.sns.libsensor1=e
 
-ro.adb.secure=0
 ro.use_data_netmgrd=true
-ro.secure=0
 ro.allow.mock.location=0
 ro.debuggable=1
 ro.opengles.version=196608
@@ -50,7 +48,6 @@ persist.sys.wfd.virtual=0
 persist.fuse_sdcard=true
 persist.data.netmgrd.qos.enable=false
 persist.timed.enable=true
-persist.sys.usb.config=adb,mtp
 persist.speaker.prot.enable=false
 persist.cne.feature=1
 

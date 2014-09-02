@@ -27,6 +27,7 @@ PRODUCT_PACKAGES += \
     fstab.g3 \
     init.g3.rc \
     init.g3.usb.rc \
+    init.g3.usb.sh \
     ueventd.g3.rc
 
 # IDC
@@ -202,6 +203,14 @@ PRODUCT_PACKAGES += \
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     e2fsck
+
+# set default USB configuration
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+ro.secure=0
+ro.allow.mock.location=0
+ro.debuggable=1
+persist.sys.usb.config=boot,adb,mtp
+ro.adb.secure=0
 
 # setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
