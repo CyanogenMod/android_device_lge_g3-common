@@ -7,6 +7,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
+    persist.hwc.mdpcomp.enable=true \
     ro.qualcomm.cabl=0 \
     ro.sf.lcd_density=640
 
