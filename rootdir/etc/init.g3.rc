@@ -8,50 +8,36 @@ on early-init
 
 on init
     mkdir /persist 0771 system system
+
+    mkdir /sns 0755 system system
+    mkdir /persist-lg 0755 system system
+    mkdir /mpt 0755 system system
+
+    # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
-    mkdir /storage 0751 system sdcard_r
     mkdir /storage/emulated 0555 root root
-    mkdir /storage/emulated/legacy 0555 root root
+
+    chmod 0701 /mnt/media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /mnt/media_rw/usbdisk0 0700 media_rw media_rw
+
+    mkdir /storage/sdcard1 0700 root root
+    mkdir /storage/usbdisk0 0700 root root
+
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
     export EMULATED_STORAGE_TARGET /storage/emulated
-    mkdir /mnt/media_rw/USBstorage1 0700 media_rw media_rw
-    mkdir /mnt/media_rw/USBstorage2 0700 media_rw media_rw
-    mkdir /mnt/media_rw/USBstorage3 0700 media_rw media_rw
-    mkdir /mnt/media_rw/USBstorage4 0700 media_rw media_rw
-    mkdir /mnt/media_rw/USBstorage5 0700 media_rw media_rw
-    mkdir /mnt/media_rw/USBstorage6 0700 media_rw media_rw
-    export EXTERNAL_ADD_USB_STORAGE1 /storage/USBstorage1
-    export EXTERNAL_ADD_USB_STORAGE2 /storage/USBstorage2
-    export EXTERNAL_ADD_USB_STORAGE3 /storage/USBstorage3
-    export EXTERNAL_ADD_USB_STORAGE4 /storage/USBstorage4
-    export EXTERNAL_ADD_USB_STORAGE5 /storage/USBstorage5
-    export EXTERNAL_ADD_USB_STORAGE6 /storage/USBstorage6
-    mkdir /storage/USBstorage1 0700 root root
-    mkdir /storage/USBstorage2 0700 root root
-    mkdir /storage/USBstorage3 0700 root root
-    mkdir /storage/USBstorage4 0700 root root
-    mkdir /storage/USBstorage5 0700 root root
-    mkdir /storage/USBstorage6 0700 root root
+    export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk0
+
+    # Support legacy paths
     symlink /storage/emulated/legacy /sdcard
     symlink /storage/emulated/legacy /mnt/sdcard
     symlink /storage/emulated/legacy /storage/sdcard0
-    mkdir /storage/external_SD 0700 root root
-    mkdir /mnt/media_rw 0700 media_rw media_rw
-    mkdir /mnt/media_rw/external_SD 0700 media_rw media_rw
-    export EXTERNAL_ADD_STORAGE /storage/external_SD
-    export SECONDARY_STORAGE /storage/external_SD
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+
     setprop ro.ssbd.session /dev/block/platform/msm_sdcc.1/by-name/eksst
     setprop ro.ssbd.offset 0
 
-
-    exec /sbin/setup_fs_static \
-        /dev/block/platform/msm_sdcc.1/by-name/userdata \
-        /dev/block/platform/msm_sdcc.1/by-name/cache \
-        /dev/block/platform/msm_sdcc.1/by-name/drm \
-        /dev/block/platform/msm_sdcc.1/by-name/sns \
-        /dev/block/platform/msm_sdcc.1/by-name/mpt \
-        no_reboot
 
     export VIBE_PIPE_PATH /dev/pipes
     mkdir /dev/pipes 0771 shell shell
@@ -64,25 +50,11 @@ on init
 
 on fs
     mount_all ./fstab.g3
-
-    # Keeping following partitions outside fstab file. As user may not have
-    # these partition flashed on the device. Failure to mount any partition in fstab file
-    # results in failure to launch late-start class.
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/persist
-    exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/persist
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev noatime barrier=1 noauto_da_alloc errors=continue
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/modem
-    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
+    setprop ro.crypto.fuse_sdcard true
 
     write /sys/kernel/boot_adsp/boot 1
 
     exec /system/bin/tune2fs -u system -r 10240 /dev/block/platform/msm_sdcc.1/by-name/userdata
-
-    mkdir /sns 0755 system system
-    mkdir /persist-lg 0755 system system
-    mkdir /mpt 0755 system system
 
     wait /dev/block/platform/msm_sdcc.1/by-name/sns
     exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/sns
@@ -448,9 +420,6 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
-    # Set default sdcard fs type
-    setprop vold.sdcard_fs_type none
-
     # Create a folder for SRS to be able to create a usercfg file
     mkdir /data/data/media 0770 media media
 
@@ -668,31 +637,15 @@ service ftmd /system/bin/logwrapper /system/bin/ftmdaemon
     disabled
     oneshot
 
-service fuse_external_SD /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/external_SD /storage/external_SD
+# virtual sdcard daemon running as media_rw (1023)
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
+    class late_start
+
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
     disabled
 
-service fuse_USBstorage1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage1 /storage/USBstorage1
-    class late_start
-    disabled
-
-service fuse_USBstorage2 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage2 /storage/USBstorage2
-    class late_start
-    disabled
-
-service fuse_USBstorage3 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage3 /storage/USBstorage3
-    class late_start
-    disabled
-
-service fuse_USBstorage4 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage4 /storage/USBstorage4
-    class late_start
-    disabled
-
-service fuse_USBstorage5 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage5 /storage/USBstorage5
-    class late_start
-    disabled
-
-service fuse_USBstorage6 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage6 /storage/USBstorage6
+service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk0 /storage/usbdisk0
     class late_start
     disabled
 
@@ -1011,9 +964,6 @@ service runtime_boot_res /system/vendor/bin/runtime_boot_res.sh
     disabled
     oneshot
 
-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
-    class late_start
-
 service security-check1 /sbin/security_boot_check system
     class core
     oneshot
@@ -1214,9 +1164,6 @@ service xtwifi_inet /system/bin/xtwifi-inet-agent
 on ffbm
     start fastmmisrv
 
-on nonencrypted
-    setprop ro.fuse_sdcard ${persist.fuse_sdcard}
-
 on property:bluetooth.aptx_streaming=1
     start bt-aptx-tuning
 
@@ -1269,10 +1216,6 @@ on property:init.svc.bootanim=stopped
     start qcom-post-boot
     start usf-post-boot
     start write_event_log
-
-on property:init.svc.sdcard=running
-    wait /mnt/shell/emulated/0
-    mount none /mnt/shell/emulated/0 /storage/emulated/legacy bind
 
 on property:init.svc.surfaceflinger=stopped
     stop ppd
@@ -1412,9 +1355,6 @@ on property:ro.build.sbp=1
 on property:ro.data.large_tcp_window_size=true
     write /proc/sys/net/ipv4/tcp_adv_win_scale  2
 
-on property:ro.fuse_sdcard=true
-    start sdcard
-
 on property:ro.lge.zwait=true
     chown system system /sys/class/zwait/state
 
@@ -1438,7 +1378,6 @@ on property:sys.mts.forcemts=0
     stop mtsd
 
 on property:vold.decrypt=trigger_restart_framework
-    setprop ro.fuse_sdcard ${persist.fuse_sdcard}
     start sensors
     start qcom-c_main-sh
     start config_bluetooth
