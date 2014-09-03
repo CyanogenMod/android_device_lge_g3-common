@@ -56,18 +56,6 @@ on fs
 
     exec /system/bin/tune2fs -u system -r 10240 /dev/block/platform/msm_sdcc.1/by-name/userdata
 
-    wait /dev/block/platform/msm_sdcc.1/by-name/sns
-    exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/sns
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/sns /sns nosuid nodev barrier=1 noatime noauto_da_alloc errors=continue
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/drm
-    exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/drm
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/drm /persist-lg nosuid nodev barrier=1 noatime noauto_da_alloc errors=continue
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/mpt
-    exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/mpt
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/mpt /mpt nodev nosuid barrier=1 noatime noauto_da_alloc errors=continue
-
     mkdir /data/nfc 770 nfc nfc
     mkdir /data/nfc/param 770 nfc nfc
 
@@ -129,8 +117,6 @@ on post-fs-data
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
-    # Allow subsystem (modem etc) debugging
-    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}    
     exec /system/bin/sh /init.galbi.early_boot.sh ${ro.board.platform}
     exec /system/bin/sh /system/etc/init.qcom.wifi.sh ${ro.board.platform} ${ro.serialno}
     exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
@@ -324,17 +310,6 @@ on boot
     chmod 0775 /persist-lg/fota
     chmod 0775 /persist-lg/fota/silence.txt
 
-# set eMMC size property
-# on property:persist.sys.emmc_size=0
-	start set_emmc_size
-on property:persist.sys.emmc_size=32G
-	setprop ro.device.memory.system 0
-	setprop ro.device.memory.internal 32
-
-on property:persist.sys.emmc_size=16G
-	setprop ro.device.memory.system 0
-	setprop ro.device.memory.internal 16
-
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
@@ -464,15 +439,11 @@ service atfwd /system/bin/ATFWD-daemon
     class late_start
     user system
     group system radio
-    onrestart /system/bin/log -t RIL-ATFWD -p w "ATFWD daemon restarted"
 
 service audiod /system/bin/audiod
    class late_start
    user system
    group system
-
-service auditd /system/bin/auditd -k
-    class main
 
 service battery_monitor /system/bin/battery_monitor
     user system
@@ -622,11 +593,6 @@ service fastmmi /system/bin/mmi
     disabled
     oneshot
 
-service fastmmisrv /system/bin/sh /init.galbi.factory.sh
-    user root
-    disabled
-    oneshot
-
 service ftm_ptt /system/bin/ftm_ptt -d
     class late_start
     user root
@@ -770,35 +736,6 @@ service lowi-server /system/bin/lowi-server
     user gps
     group gps net_admin wifi inet
     disabled
-
-service moca_restart /system/bin/moca_restart
-    class late_start
-    user root 
-    group system sdcard_r sdcard_rw radio
-    disabled
-    oneshot
-
-service moca_service /system/bin/moca -s
-    class late_start
-    user root 
-    group system sdcard_r sdcard_rw radio
-    disabled
-    oneshot
-    socket Full.MOCA.port stream 660 system system
-
-service moca_service_disable /system/bin/moca -k
-    class late_start
-    user root
-    group system sdcard_r sdcard_rw radio
-    disabled
-    oneshot
-
-service moca_ssr_ramdump /system/bin/subsystem_ramdump 1
-    class late_start
-    user system
-    group system sdcard_r sdcard_rw radio
-    disabled
-    oneshot
 
 service mpdecision /system/bin/mpdecision --avg_comp
     user root
@@ -950,10 +887,6 @@ service quipc_main /system/bin/quipc_main
     group gps net_admin wifi inet
     disabled
 
-service recovery_write /sbin/write_recovery
-    class main
-    oneshot
-
 service ril-daemon1 /system/bin/rild -c 1
     class main
     socket rild1 stream 660 root radio
@@ -967,12 +900,6 @@ service ril-qmi /system/bin/sh /init.galbi.ril.sh
     user root
     oneshot
 
-service riva_ramdump /system/bin/riva_ramdump
-    class late_start
-    user root
-    group system
-    disabled
-
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
@@ -982,61 +909,17 @@ service runtime_boot_res /system/vendor/bin/runtime_boot_res.sh
     disabled
     oneshot
 
-service security-check1 /sbin/security_boot_check system
-    class core
-    oneshot
-
-service security-check2 /sbin/security_boot_check recovery
-    class core
-    oneshot
-
 service sensors /system/bin/sensors.qcom
     class main
     user root
     group root
     disabled
 
-service service-crash /system/bin/sh /init.galbi.crash.sh
-    class main
-    disabled
-    oneshot
-
-service set_emmc_size /system/bin/sh /set_emmc_size.sh
-    class main
-    user root
-    group media_rw system sdcard_rw
-    disabled
-    oneshot
-
-service smpl_count /system/bin/smpl_count
-    class main
-    user root
-    oneshot
-
-service ssbd /system/bin/ssbd
-    class main
-    socket ssbd stream 0660 root mount
-
-service ssr_diag /system/bin/ssr_diag
-    class late_start
-    user system
-    group system
-
 service ssr_dump /system/bin/subsystem_ramdump 1
     class late_start
     user system
     group system sdcard_r sdcard_rw
     disabled
-
-service sreadahead /sbin/treadahead
-    oneshot
-    disabled
-
-service sreadahead-check /sbin/sreadahead_check
-    class main
-    user root
-    group root
-    oneshot
 
 service svelteon /system/bin/logwrapper /system/bin/sh /system/etc/init.lge.svelte.sh start
 	user root
@@ -1279,13 +1162,6 @@ on property:persist.service.kernel.enable=5
 
 on property:persist.service.kernel.enable=6
     restart log-kernel
-
-on property:persist.service.moca.enable=0
-   start moca_service_disable
-
-on property:persist.service.moca.enable=1
-   start moca_service
-   start moca_restart
 
 on property:persist.service.odm_app.enable=true
     start lg_odm_service
