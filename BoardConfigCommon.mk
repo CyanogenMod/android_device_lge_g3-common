@@ -122,5 +122,7 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 COMMON_GLOBAL_CFLAGS += -DLG_CAMERA_HARDWARE -DLPA_DEFAULT_BUFFER_SIZE=512
 
+BOARD_RIL_CLASS := ../../../device/lge/g3-common/ril/
+
 # inherit from the proprietary version
 -include vendor/lge/g3-common/BoardConfigVendor.mk
