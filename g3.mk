@@ -102,8 +102,8 @@ PRODUCT_PACKAGES += \
     e2fsck
 
 # GPS
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf
+PRODUCT_PACKAGES += \
+    gps.msm8974
 
 # IRSC
 PRODUCT_COPY_FILES += \

@@ -114,6 +114,12 @@ on post-fs-data
     chown system system /mpt
     chmod 0775 /mpt
 
+    mkdir /data/misc/gpsone_d 0770 system gps
+    mkdir /data/misc/location 0770 gps gps
+    mkdir /data/misc/location/mq 0770 gps gps
+    mkdir /data/misc/location/xtwifi 0770 gps gps
+    mkdir /data/misc/quipc 0770 system gps
+
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
