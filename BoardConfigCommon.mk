@@ -34,9 +34,11 @@ TARGET_BOOTLOADER_BOARD_NAME := g3
 TARGET_NO_BOOTLOADER := true
 
 # Kernel
+BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=g3 user_debug=31 msm_rtb.filter=0x0 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000
 TARGET_KERNEL_SOURCE := kernel/lge/g3
 TARGET_KERNEL_CONFIG := cyanogenmod_g3_defconfig
