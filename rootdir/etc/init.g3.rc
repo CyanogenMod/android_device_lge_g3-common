@@ -66,19 +66,19 @@ on fs
     chown system system /sys/bus/i2c/devices/0-0036/lm3697_rt_mode
 
 on post-fs
-    export LD_PRELOAD /vendor/lib/libNimsWrap.so
+    # export LD_PRELOAD /vendor/lib/libNimsWrap.so
 
     start sreadahead
-   chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
-   chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
-   chown system system /sys/devices/virtual/input/lge_touch/incoming_call
-   chown system system /sys/devices/virtual/input/lge_touch/ime_status
-   chown system system /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
-   chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
-   chown system system /sys/devices/virtual/input/lge_touch/ts_noise
-   chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise
-   chmod 664 /sys/devices/virtual/input/lge_touch/quick_cover_status
-   chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
+    chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
+    chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
+    chown system system /sys/devices/virtual/input/lge_touch/incoming_call
+    chown system system /sys/devices/virtual/input/lge_touch/ime_status
+    chown system system /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
+    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
+    chown system system /sys/devices/virtual/input/lge_touch/ts_noise
+    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise
+    chmod 664 /sys/devices/virtual/input/lge_touch/quick_cover_status
+    chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
     mkdir /data/misc/audit 02750 system system	
 
 on post-fs-data
