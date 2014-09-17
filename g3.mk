@@ -131,26 +131,15 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/libnfc-brcm.conf:system/etc/libnfc-brcm.conf \
     $(LOCAL_PATH)/configs/libnfc-nxp.conf:system/etc/libnfc-nxp.conf
 
-PRODUCT_TAGS += dalvik.gc.type-precise
-
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-    LiveWallpapersPicker \
-    librs_jni
-
 PRODUCT_PACKAGES += \
     gralloc.msm8974 \
-    libgenlock \
     hwcomposer.msm8974 \
-    memtrack.msm8974 \
-    libqdutils \
-    libqdMetaData
+    memtrack.msm8974
 
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
     libstagefrighthw \
     libOmxCore \
-    libmm-omxcore \
     libOmxVdec \
     libOmxVdecHevc \
     libOmxVenc
@@ -165,16 +154,7 @@ PRODUCT_PACKAGES += \
 # Audio effects
 PRODUCT_PACKAGES += \
     libqcomvisualizer \
-    libqcomvoiceprocessing \
-    libqcomvoiceprocessingdescriptors
-
-PRODUCT_PACKAGES += \
-    libqomx_core \
-    libmmcamera_interface \
-    libmmjpeg_interface \
-    camera.hammerhead \
-    mm-jpeg-interface-test \
-    mm-qcamera-app
+    libqcomvoiceprocessing
 
 PRODUCT_PACKAGES += \
     keystore.msm8974
@@ -182,27 +162,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
-# GPS
-PRODUCT_PACKAGES += \
-    libloc_adapter \
-    libloc_eng \
-    libloc_api_v02 \
-    libloc_ds_api \
-    libloc_core \
-    libizat_core \
-    libgeofence \
-    libgps.utils \
-    gps.msm8974 \
-    flp.msm8974
-
 # NFC packages
 PRODUCT_PACKAGES += \
     nfc_nci.g3 \
     NfcNci \
     Tag
-
-PRODUCT_PACKAGES += \
-    libion
 
 PRODUCT_PACKAGES += \
     lights.g3
@@ -225,7 +189,3 @@ PRODUCT_PACKAGES += \
 # Torch
 PRODUCT_PACKAGES += \
     Torch
-
-$(call inherit-product-if-exists, hardware/qcom/msm8x74/msm8x74.mk)
-$(call inherit-product-if-exists, vendor/qcom/gpu/msm8x74/msm8x74-gpu-vendor.mk)
-$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
