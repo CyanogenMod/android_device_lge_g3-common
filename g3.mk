@@ -177,17 +177,15 @@ PRODUCT_PACKAGES += \
     init.g3.rc \
     init.g3.usb.rc \
     init.g3.usb.sh \
+    init.galbi.class_core.sh \
+    init.galbi.class_main.sh \
+    init.galbi.early_boot.sh \
+    init.galbi-sensor.sh \
+    init.galbi.sh \
+    init.galbi.syspart_fixup.sh \
+    init.galbi.usb.sh \
     ueventd.g3.rc \
     ueventd.rc
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/init.galbi.class_core.sh:root/init.galbi.class_core.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi.class_main.sh:root/init.galbi.class_main.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi.early_boot.sh:root/init.galbi.early_boot.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi-sensor.sh:root/init.galbi-sensor.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi.sh:root/init.galbi.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi.syspart_fixup.sh:root/init.galbi.syspart_fixup.sh \
-    $(LOCAL_PATH)/prebuilt/init.galbi.usb.sh:root/init.galbi.usb.sh
 
 # Thermal
 PRODUCT_COPY_FILES += \
