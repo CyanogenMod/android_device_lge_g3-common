@@ -20,9 +20,6 @@ etc/acdbdata/g3/Speaker_cal.acdb
 # Bluetooth firmware
 bin/BCM4339_003.001.009.0061.0313_FM_I2S.hcd
 bin/BCM4339_003.001.009.0061.0312.hcd
-etc/firmware/fw_bcmdhd_apsta.bin
-etc/firmware/fw_bcmdhd.bin
-etc/firmware/fw_bcmdhd_mfg.bin
 
 # Camera
 bin/mm-qcamera-daemon
@@ -243,3 +240,11 @@ etc/firmware/venus.b03
 etc/firmware/venus.b04
 etc/firmware/venus.mbn
 etc/firmware/venus.mdt
+
+# WiFi
+etc/firmware/fw_bcmdhd_apsta.bin
+etc/firmware/fw_bcmdhd.bin
+etc/firmware/fw_bcmdhd_mfg.bin
+etc/wifi/bcmdhd.cal
+etc/wifi/bcmdhd_lgit.cal
+etc/wifi/bcmdhd_murata.cal

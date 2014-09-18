@@ -200,5 +200,8 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
 # Wifi
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/bcmdhd.cal:system/etc/wifi/bcmdhd.cal
+PRODUCT_PACKAGES += \
+    libnetcmdiface
+
+# Get BCMDHD configs
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
