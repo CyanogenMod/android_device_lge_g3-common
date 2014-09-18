@@ -18,8 +18,8 @@ etc/acdbdata/g3/Headset_cal.acdb
 etc/acdbdata/g3/Speaker_cal.acdb
 
 # Bluetooth firmware
-bin/BCM4339_003.001.009.0061.0313_FM_I2S.hcd
-bin/BCM4339_003.001.009.0061.0312.hcd
+bin/BCM4339_003.001.009.0061.0313_FM_I2S.hcd:etc/firmware/BCM4339_003.001.009.0061.0313_FM_I2S.hcd
+bin/BCM4339_003.001.009.0061.0312.hcd:etc/firmware/BCM4339_003.001.009.0061.0312.hcd
 
 # Camera
 bin/mm-qcamera-daemon
