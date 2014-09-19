@@ -183,8 +183,7 @@ PRODUCT_PACKAGES += \
     init.galbi.sh \
     init.galbi.syspart_fixup.sh \
     init.galbi.usb.sh \
-    ueventd.g3.rc \
-    ueventd.rc
+    ueventd.g3.rc
 
 # Thermal
 PRODUCT_COPY_FILES += \
