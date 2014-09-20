@@ -151,6 +151,9 @@ on boot
     chown wifi wifi /dev/rfkill
     chmod 0600 /dev/rfkill
 
+    # For NFC
+    symlink /dev/pn547 /dev/pn544
+
     # vibrator
     chown system system /sys/class/timed_output/vibrator/amp
     chmod 0660 /sys/class/timed_output/vibrator/amp
