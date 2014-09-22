@@ -89,6 +89,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     bdAddrLoader
 
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8974
+
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8974 \

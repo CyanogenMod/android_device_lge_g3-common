@@ -23,7 +23,7 @@ bin/BCM4339_003.001.009.0061.0312.hcd:etc/firmware/BCM4339_003.001.009.0061.0312
 
 # Camera
 bin/mm-qcamera-daemon
-lib/hw/camera.msm8974.so
+lib/hw/camera.msm8974.so:lib/hw/camera.vendor.msm8974.so
 lib/libAlAisLib.so
 lib/libAlAisWrap.so
 lib/libAlAisTune.so
