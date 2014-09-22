@@ -289,6 +289,7 @@
     <ctl name="SLIM_0_RX SampleRate" value="KHZ_48" />
     <ctl name="EC_REF_RX" value="NONE" />
     <ctl name="SPK Amp Volume" value="2" />
+    <ctl name="SPK Amp CLK" value="Off" />
 
     <!-- These are audio route (FE to BE) specific mixer settings -->
     <path name="deep-buffer-playback">
@@ -773,6 +774,7 @@
         <ctl name="LINEOUT3 Volume" value="16" />
         <ctl name="RX3 HPF cut off" value="MIN_3DB_150Hz" />
         <ctl name="SPK Amp Volume" value="3" />
+        <ctl name="SPK Amp CLK" value="On" />
     </path>
 
     <path name="fake_speaker">
@@ -998,6 +1000,7 @@
         <ctl name="LINEOUT3 Volume" value="19" />
         <ctl name="RX3 HPF cut off" value="MIN_3DB_150Hz" />
         <ctl name="SPK Amp Volume" value="3" />
+        <ctl name="SPK Amp CLK" value="On" />
     </path>
 
     <path name="usb-headphones">
