@@ -287,14 +287,6 @@
     <ctl name="RX7 HPF cut off" value="MIN_3DB_150Hz" />
     <ctl name="SLIM_0_RX Format" value="S16_LE" />
     <ctl name="SLIM_0_RX SampleRate" value="KHZ_48" />
-    <ctl name="SLIM_0_RX AANC MUX" value="ZERO" />
-    <ctl name="ANC Function" value="OFF" />
-    <ctl name="ANC Slot" value="0" />
-    <ctl name="ANC1 MUX" value="ZERO" />
-    <ctl name="ANC2 MUX" value="ZERO" />
-    <ctl name="ANC1 FB MUX" value="ZERO" />
-    <ctl name="Speaker Protection" value="Off" />
-    <ctl name="MultiMedia1 Mixer QUAT_MI2S_TX" value="0" />
     <ctl name="EC_REF_RX" value="NONE" />
     <ctl name="SPK Amp Volume" value="2" />
 
@@ -815,8 +807,8 @@
 
     <path name="handset-mic">
         <path name="adc1" />
-	<ctl name="ADC1 Volume" value="12" />
-	<ctl name="DEC6 Volume" value="60" />
+        <ctl name="ADC1 Volume" value="12" />
+        <ctl name="DEC6 Volume" value="60" />
     </path>
 
     <path name="handset-hac">
@@ -1115,8 +1107,8 @@
 
     <path name="headset-camcorder-mic">
         <path name="adc2" />
-	<ctl name="DEC5 Volume" value="60" />
-	<ctl name="ADC2 Volume" value="9" />
+        <ctl name="DEC5 Volume" value="60" />
+        <ctl name="ADC2 Volume" value="9" />
     </path>
 
     <path name="hdmi-tx">
@@ -1157,7 +1149,7 @@
         <ctl name="DEC6 Volume" value="60" />
     </path>
 
-	<path name="headset-voice-memo-8k">
+    <path name="headset-voice-memo-8k">
         <path name="adc2" />
         <ctl name="ADC2 Volume" value="9" />
         <ctl name="DEC5 Volume" value="60" />
@@ -1169,13 +1161,13 @@
         <ctl name="DEC5 Volume" value="60" />
     </path>
 
-	<path name="bt-sco-nrec-16k">
+    <path name="bt-sco-nrec-16k">
     </path>
 
-	<path name="bt-sco-nrec">
+    <path name="bt-sco-nrec">
     </path>
 
-	<path name="bt-sco-16k">
+    <path name="bt-sco-16k">
     </path>
 
     <path name="bt-sco-headset">
@@ -1632,4 +1624,3 @@
     </path>
 
 </mixer>
-
