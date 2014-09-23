@@ -39,6 +39,7 @@ lib/libmorpho_noise_reduction.so
 lib/libmorpho_panorama_gp.so
 lib/libmorpho_video_denoiser.so
 lib/libqomx_core.so
+lib/libVDObjectTrackerAPI.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegehw.so
 vendor/lib/libmmcamera2_c2d_module.so
