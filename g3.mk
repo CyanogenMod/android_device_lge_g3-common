@@ -126,7 +126,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    lights.g3
+    lights.msm8974
 
 # Media
 PRODUCT_COPY_FILES += \
