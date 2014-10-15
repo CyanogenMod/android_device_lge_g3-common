@@ -1,4 +1,5 @@
 import init.g3.usb.rc
+import init.galbi.bt_vendor.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
