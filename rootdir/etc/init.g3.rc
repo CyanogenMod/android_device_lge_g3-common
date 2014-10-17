@@ -79,7 +79,6 @@ on post-fs
     chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise
     chmod 664 /sys/devices/virtual/input/lge_touch/quick_cover_status
     chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
-    mkdir /data/misc/audit 02750 system system	
 
 on post-fs-data
     mkdir /data/tombstones 0775 system system
@@ -414,8 +413,6 @@ on post-fs-data
 
     # Create a folder for SRS to be able to create a usercfg file
     mkdir /data/data/media 0770 media media
-
-    mkdir /data/misc/audit 02750 system system
 
 #
 # Services start here
