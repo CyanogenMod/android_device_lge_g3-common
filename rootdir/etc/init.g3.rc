@@ -156,6 +156,8 @@ on boot
     # vibrator
     chown system system /sys/class/timed_output/vibrator/amp
     chmod 0660 /sys/class/timed_output/vibrator/amp
+    chown system system /sys/class/timed_output/vibrator/enable
+    chmod 0660 /sys/class/timed_output/vibrator
 
     # led
     chown system system /sys/class/leds/button-backlight1/brightness
