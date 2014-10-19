@@ -1019,9 +1019,9 @@ service vpnclientpm /system/bin/vpnclientpm3 \
     disabled
 
 service wcnss-service /system/bin/wcnss_service
-    class late_start
-    user root
-    group system wifi
+    class main
+    user system
+    group system wifi qcom_diag radio
     oneshot
 
 service write_event_log /system/bin/write_event_log 55000
