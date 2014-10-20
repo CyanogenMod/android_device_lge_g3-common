@@ -121,7 +121,8 @@ BOARD_SEPOLICY_DIRS += \
 BOARD_SEPOLICY_UNION := \
     app.te \
     device.te \
-    file_contexts
+    file_contexts \
+    ueventd.te
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
