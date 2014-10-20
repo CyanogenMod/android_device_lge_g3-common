@@ -187,3 +187,7 @@
 /dev/tspdrv               0660   system     system
 # End Immersion changes
 /dev/lge_ddm_tty0         0660   system     system
+
+# wcnss wlan
+/dev/wcnss_wlan           0660   system     system
+/dev/wcnss_ctrl           0660   system     system
