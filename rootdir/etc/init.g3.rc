@@ -214,6 +214,10 @@ on boot
     chown system system /sys/class/graphics/fb0/dynamic_fps
     chmod 664 /sys/class/graphics/fb0/dynamic_fps
 
+    # MDP idle notifier
+    chown system graphics /sys/class/graphics/fb0/idle_time
+    chmod 0664 /sys/class/graphics/fb0/idle_time
+
     # Node for power save mode
     chown system system /sys/class/graphics/fb0/mdp/vfps
     chmod 644 /sys/class/graphics/fb0/mdp/vfps
