@@ -16,7 +16,7 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifneq ($(filter g3 d851 vs985, $(TARGET_DEVICE)),)
+ifneq ($(filter g3 d851 ls990 vs985, $(TARGET_DEVICE)),)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
