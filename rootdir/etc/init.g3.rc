@@ -190,7 +190,6 @@ on boot
     chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
     chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/setting
     chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/setting
-    write /sys/devices/virtual/lg_rgb_led/use_patterns/setting 1
 
     # Charger timer
     chown system system /sys/class/power_supply/ac/charger_timer
