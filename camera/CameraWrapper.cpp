@@ -29,7 +29,7 @@
 #include <utils/threads.h>
 #include <utils/String8.h>
 #include <hardware/hardware.h>
-#include <hardware/camera.h>
+#include "hardware/camera.h"
 #include <camera/Camera.h>
 #include <camera/CameraParameters.h>
 
