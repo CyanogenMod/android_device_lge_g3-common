@@ -80,6 +80,9 @@ OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
+# Logging
+TARGET_USES_LOGD=false
+
 # Media
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
