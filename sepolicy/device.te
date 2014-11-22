@@ -1,0 +1,2 @@
+type lge_touch_sysfs, dev_type;
+type wpa_device, dev_type;

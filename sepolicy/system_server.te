@@ -1,0 +1,2 @@
+allow system_server init:unix_stream_socket getopt;
+allow system_server time_daemon:unix_stream_socket connectto;

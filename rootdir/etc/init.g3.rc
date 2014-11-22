@@ -15,6 +15,8 @@ on init
     mkdir /persist 0771 system system
 
     mkdir /sns 0755 system system
+    mkdir /sns/cal/ 0644 system system
+    mkdir /sns/touch/ 0775 system system
     mkdir /persist-lg 0755 system system
     mkdir /mpt 0755 system system
 
@@ -58,6 +60,9 @@ on init
 on fs
     mount_all ./fstab.g3
     setprop ro.crypto.fuse_sdcard true
+    restorecon_recursive /sns
+    restorecon_recursive /persist
+    restorecon_recursive /persist-lg
 
     write /sys/kernel/boot_adsp/boot 1
 
@@ -94,8 +99,6 @@ on post-fs-data
     mkdir /tombstones/wcnss 0771 system system
     mkdir /tombstones/dsps 0771 system system
     mkdir /data/logger 0775 system system
-    mkdir /sns/cal/ 0644 system system
-    mkdir /sns/touch/ 0775 system system
 
     mkdir /persist-lg/multimedia 0770 media divxdrm
     chown media divxdrm /persist-lg/multimedia
