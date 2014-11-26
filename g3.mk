@@ -172,11 +172,6 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
-# QRNGD
-PRODUCT_PACKAGES += \
-    qrngd \
-    qrngp
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.g3 \
