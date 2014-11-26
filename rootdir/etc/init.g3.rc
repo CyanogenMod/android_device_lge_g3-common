@@ -551,8 +551,10 @@ service bugreport /system/bin/bugmailer.sh -v
     disabled
     oneshot
 
-service charger /charger
+service charger /sbin/healthd -c
     class charger
+    critical
+    seclabel u:r:healthd:s0
 
 service cnd /system/bin/cnd
     class late_start
