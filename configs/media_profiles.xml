@@ -197,7 +197,7 @@
 
         <EncoderProfile quality="timelapsecif" fileFormat="mp4" duration="30">
             <Video codec="h264"
-                   bitRate="5120000"
+                   bitRate="640000"
                    width="352"
                    height="288"
                    frameRate="30" />
@@ -216,7 +216,7 @@
                    frameRate="30" />
             <!-- audio setting is ignored -->
             <Audio codec="aac"
-                   bitRate="96000"
+                   bitRate="156000"
                    sampleRate="48000"
                    channels="1" />
         </EncoderProfile>
@@ -229,7 +229,7 @@
                    frameRate="30" />
             <!-- audio setting is ignored -->
             <Audio codec="aac"
-                   bitRate="96000"
+                   bitRate="156000"
                    sampleRate="48000"
                    channels="1" />
         </EncoderProfile>
@@ -331,7 +331,7 @@
 
         <EncoderProfile quality="timelapsecif" fileFormat="mp4" duration="30">
             <Video codec="h264"
-                   bitRate="512000"
+                   bitRate="640000"
                    width="352"
                    height="288"
                    frameRate="30" />
@@ -363,7 +363,7 @@
                    frameRate="30" />
             <!-- audio setting is ignored -->
             <Audio codec="aac"
-                   bitRate="96000"
+                   bitRate="156000"
                    sampleRate="48000"
                    channels="1" />
         </EncoderProfile>
