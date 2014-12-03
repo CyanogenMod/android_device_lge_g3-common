@@ -94,6 +94,11 @@ TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 # NFC
 BOARD_NFC_CHIPSET := pn547
 
+# Offmode Charging
+COMMON_GLOBAL_CFLAGS += \
+    -DBOARD_CHARGING_CMDLINE_NAME='"androidboot.mode"' \
+    -DBOARD_CHARGING_CMDLINE_VALUE='"chargerlogo"'
+
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
 

@@ -551,10 +551,9 @@ service bugreport /system/bin/bugmailer.sh -v
     disabled
     oneshot
 
-service charger /sbin/healthd -c
+service charger /sbin/charger_g3
     class charger
     critical
-    seclabel u:r:healthd:s0
 
 service cnd /system/bin/cnd
     class late_start
@@ -1090,8 +1089,9 @@ on property:bluetooth.isEnabled=true
     start btwlancoex
     write /sys/class/bluetooth/hci0/idle_timeout 7000
 
-on chargerlogo
+on charger
    stop bootlogo
+   mount_all ./fstab.g3
    write /sys/class/android_usb/android0/enable 0
    write /sys/class/android_usb/android0/idVendor 1004
    write /sys/class/android_usb/android0/idProduct 6300
@@ -1100,7 +1100,6 @@ on chargerlogo
    write /sys/class/android_usb/android0/bDeviceProtocol 0
    write /sys/class/android_usb/android0/functions charge_only
    write /sys/class/android_usb/android0/enable 1
-   exec /sbin/chargerlogo
 
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
