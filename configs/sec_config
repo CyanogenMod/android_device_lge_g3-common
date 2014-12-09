@@ -3,6 +3,8 @@
 16:4294967295:1000:3004
 /* Allow SS CTL service to be used by system and net_raw processes */
 43:4294967295:1000:3004
+/* Allow VSS GNSS service to be used by system and net_raw processes */
+704:4294967295:1000:3004
 /* Allow Sensor services to be used by sensor process */
 256:4294967295:3011
 257:4294967295:3011
@@ -260,3 +262,12 @@
 509:4294967295:3011
 510:4294967295:3011
 511:4294967295:3011
+/* Allow RCS service to aquire net_raw permission */
+18:4294967295:1001:3004
+/* Allow QMID service to aquire net_raw permission */
+3:4294967295:1001:3004
+2:4294967295:1001:3004
+42:4294967295:1001:3004
+18:4294967295:1001:3004
+9:4294967295:1001:3004
+1:4294967295:1001:3004
