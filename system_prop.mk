@@ -22,7 +22,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qc.sdk.audio.fluencetype=fluence
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    use.dedicated.device.for.voip=true \
     use.voice.path.for.pcm.voip=true
 
 # Display
