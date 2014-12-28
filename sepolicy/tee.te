@@ -1,3 +1,1 @@
 allow tee unlabeled:dir search;
-allow tee vfat:dir search;
-allow tee vfat:file r_file_perms;
