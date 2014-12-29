@@ -49,6 +49,7 @@ TARGET_KERNEL_SOURCE := kernel/lge/g3
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
+AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
