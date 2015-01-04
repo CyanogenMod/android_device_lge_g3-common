@@ -1325,6 +1325,8 @@ on property:service.bootanim.exit=1
     write /sys/module/cpu_boost/parameters/input_boost_ms "40"
 
 on property:init.svc.bootanim=running
+    # Disable LG screen sharpening
+    write /sys/devices/virtual/graphics/fb0/sharpening 0
     # Switch to NOOP and performance mode while booting
     setprop sys.perf.profile 2
     write /sys/block/mmcblk0/queue/scheduler noop
