@@ -132,11 +132,12 @@ BOARD_SEPOLICY_UNION += \
     device.te \
     file.te \
     file_contexts \
-    init_shell.te \
     genfs_contexts \
     hostapd.te \
+    init_shell.te \
     kcal_dev.te \
     kernel.te \
+    keystore.te \
     lge_touch_sysfs.te \
     mm-pp-daemon.te \
     mm-qcamerad.te \
