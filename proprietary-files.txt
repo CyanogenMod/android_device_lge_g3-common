@@ -164,7 +164,6 @@ vendor/lib/mediadrm/libwvdrmengine.so
 # GPS
 -app/com.qualcomm.location/com.qualcomm.location.apk:app/com.qualcomm.location.apk
 -app/com.qualcomm.services.location/com.qualcomm.services.location.apk:app/com.qualcomm.services.location.apk
-etc/gps.conf
 etc/izat.conf
 etc/permissions/com.qualcomm.location.xml
 etc/quipc.conf
