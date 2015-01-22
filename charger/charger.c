@@ -678,20 +678,6 @@ static int draw_text(const char *str, int x, int y)
     return y + char_height;
 }
 
-static void draw_capacity(struct charger *charger)
-{
-    char cap_str[64];
-    int x, y;
-    int str_len_px;
-
-    snprintf(cap_str, sizeof(cap_str), "%d%%", charger->batt_anim->capacity);
-    str_len_px = gr_measure(cap_str);
-    x = (gr_fb_width() - str_len_px) / 2;
-    y = (gr_fb_height() + char_height) / 2;
-    gr_color(0xff, 0xff, 0xff, 255);
-    gr_text(x, y, cap_str, 0);
-}
-
 /* returns the last y-offset of where the surface ends */
 static int draw_surface_centered(gr_surface surface)
 {
@@ -744,10 +730,8 @@ static void redraw_screen(struct charger *charger)
     /* try to display *something* */
     if (batt_anim->capacity < 0 || batt_anim->num_frames == 0)
         draw_unknown(charger);
-    else {
+    else
         draw_battery(charger);
-        draw_capacity(charger);
-    }
     gr_flip();
 }
 
