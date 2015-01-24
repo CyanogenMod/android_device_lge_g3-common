@@ -85,9 +85,6 @@ EXTENDED_FONT_FOOTPRINT := true
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# NFC
-BOARD_NFC_CHIPSET := pn547
-
 # Offmode Charging
 COMMON_GLOBAL_CFLAGS += \
     -DBOARD_CHARGING_CMDLINE_NAME='"androidboot.mode"' \
