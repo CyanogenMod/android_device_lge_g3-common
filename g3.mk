@@ -201,10 +201,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     init.galbi.thermal_conf.sh
 
-# Torch
-PRODUCT_PACKAGES += \
-    Torch
-
 # USB
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
