@@ -76,3 +76,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.qualcomm.sns.daemon=e \
     debug.qualcomm.sns.hal=e \
     debug.qualcomm.sns.libsensor1=e
+
+# USB
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.isUsbOtgEnabled=true
