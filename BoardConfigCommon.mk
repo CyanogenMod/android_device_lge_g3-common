@@ -148,7 +148,7 @@ BOARD_SEPOLICY_UNION += \
     system_app.te \
     tee.te \
     thermal-engine.te \
-    time_data_file.te \
+    vibe_data_file.te \
     ueventd.te \
     vold.te \
     wcnss_service.te \

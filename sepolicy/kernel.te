@@ -2,4 +2,4 @@ allow kernel kcal_dev:dir relabelto;
 allow kernel kcal_dev:file relabelto;
 allow kernel kcal_dev:lnk_file relabelto;
 allow kernel lge_touch_sysfs:file relabelto;
-allow kernel time_data_file:file relabelto;
+allow kernel vibe_dev:file relabelto;
