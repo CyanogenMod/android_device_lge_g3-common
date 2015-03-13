@@ -1,1 +1,2 @@
+allow vold encrypt_block_device:blk_file rw_file_perms;
 allow vold mmc_block_device:blk_file rw_file_perms;

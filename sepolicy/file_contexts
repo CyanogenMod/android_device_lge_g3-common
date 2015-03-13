@@ -16,3 +16,5 @@
 /sys/devices/platform/tspdrv/nforce_timed		u:object_r:vibe_dev:s0
 
 /sns(/.*)?			u:object_r:sensors_persist_file:s0
+
+/dev/block/platform/msm_sdcc\.1/by-name/encrypt		u:object_r:encrypt_block_device:s0
