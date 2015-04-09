@@ -184,13 +184,9 @@ on boot
     chmod 0664 /sys/devices/platform/tspdrv/nforce_timed
     restorecon /sys/devices/platform/tspdrv/nforce_timed
 
-    # Display Color Calibration
-    chown root system /sys/devices/platform/kcal_ctrl.0/kcal
-    chown root system /sys/devices/platform/kcal_ctrl.0/kcal_ctrl
-    chmod 0664 /sys/devices/platform/kcal_ctrl.0/kcal
-    chmod 0664 /sys/devices/platform/kcal_ctrl.0/kcal_ctrl
-    restorecon /sys/devices/platform/kcal_ctrl.0/kcal
-    restorecon /sys/devices/platform/kcal_ctrl.0/kcal_ctrl
+    # Polynomial Color Correction
+    chown system system /sys/devices/virtual/graphics/fb0/rgb
+    chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
 
     # led
     chown system system /sys/class/leds/button-backlight1/brightness
