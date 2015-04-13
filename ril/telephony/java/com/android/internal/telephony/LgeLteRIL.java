@@ -90,6 +90,11 @@ public class LgeLteRIL extends RIL implements CommandsInterface {
     @Override
     protected void
     processUnsolicited (Parcel p) {
+        if(mRilVersion >= 10) {
+            super.processUnsolicited(p);
+            return;
+        }
+
         Object ret;
         int dataPosition = p.dataPosition(); // save off position within the Parcel
         int response = p.readInt();
@@ -122,12 +127,17 @@ public class LgeLteRIL extends RIL implements CommandsInterface {
         }
     }
 
-    // This call causes ril to crash the socket, stopping further communication
+    // This call causes ril to crash the socket on ril versions previous to 10, stopping further communication
     @Override
     public void
     getHardwareConfig (Message result) {
-        riljLog("Ignoring call to 'getHardwareConfig'");
+        if(mRilVersion >= 10) {
+            super.getHardwareConfig(result);
+            return;
+        }
+
         if (result != null) {
+            riljLog("Ignoring call to 'getHardwareConfig' for ril version < 10");
             CommandException ex = new CommandException(
                 CommandException.Error.REQUEST_NOT_SUPPORTED);
             AsyncResult.forMessage(result, null, ex);
