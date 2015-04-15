@@ -183,6 +183,10 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
+# Radio
+PRODUCT_PACKAGES += \
+    libxml2
+
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.g3 \
