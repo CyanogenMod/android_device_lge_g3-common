@@ -772,8 +772,7 @@ service mtsd /system/bin/mtsd
     socket mtsd.port stream 660 system system
 
 service netmgrd /system/bin/netmgrd
-    class main
-    disabled
+    class core
 
 service p2p_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -843,11 +842,6 @@ service qcom-c_core-sh /system/bin/sh /init.galbi.class_core.sh
     user root
     oneshot
 
-service qcom-c_main-sh /system/bin/sh /init.galbi.class_main.sh
-    class main
-    user root
-    oneshot
-
 service qcom-sensor-sh /system/bin/sh /init.galbi-sensor.sh
     class main
     user root
@@ -865,10 +859,9 @@ service qmiproxy /system/bin/qmiproxy
     disabled
 
 service qmuxd /system/bin/qmuxd
-    class main
+    class core
     user radio
     group radio audio bluetooth gps qcom_diag
-    disabled
 
 service qosmgrd /system/bin/qosmgr /system/etc/qosmgr_rules.xml
    user system
@@ -891,14 +884,6 @@ service quipc_main /system/bin/quipc_main
     user gps
     group gps net_admin wifi inet
     disabled
-
-service ril-daemon1 /system/bin/rild -c 1
-    class main
-    socket rild1 stream 660 root radio
-    socket rild-debug1 stream 660 radio system
-    user root
-    disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw qcom_oncrpc diag qcom_diag log net_raw
 
 service ril-qmi /system/bin/sh /init.galbi.ril.sh
     class main

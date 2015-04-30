@@ -194,7 +194,6 @@ PRODUCT_PACKAGES += \
     init.g3.usb.rc \
     init.g3.usb.sh \
     init.galbi.class_core.sh \
-    init.galbi.class_main.sh \
     init.galbi.early_boot.sh \
     init.galbi-sensor.sh \
     init.galbi.sh \
