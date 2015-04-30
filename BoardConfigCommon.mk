@@ -112,6 +112,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 
 # Radio
 BOARD_RIL_CLASS := ../../../device/lge/g3-common/ril/
+TARGET_RELEASE_CPPFLAGS += -DNEEDS_LGE_RIL_SYMBOLS
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
