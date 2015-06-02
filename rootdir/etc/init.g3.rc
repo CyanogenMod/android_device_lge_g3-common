@@ -533,11 +533,6 @@ service bt_hsic_control /system/bin/sh /system/etc/hsic.control.bt.sh
     user root
     disabled
 
-service bugreport /system/bin/bugmailer.sh -v
-    class main
-    disabled
-    oneshot
-
 service charger /sbin/charger_g3
     class charger
     critical
