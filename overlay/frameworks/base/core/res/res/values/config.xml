@@ -281,13 +281,6 @@
          movement threshold where scrolling should begin. -->
     <dimen name="config_viewConfigurationTouchSlop">4dp</dimen>
 
-    <!-- Enable the option to check proximity sensor when deciding whether to
-         turn the screen on
-         NOTE ! - Enable for devices that have a fast response proximity sensor
-    -->
-    <bool name="config_proximityCheckOnWake">true</bool>
-    <integer name="config_proximityCheckTimeout">100</integer>
-
     <!-- Maximum number of supported users -->
     <integer name="config_multiuserMaximumUsers">4</integer>
 
