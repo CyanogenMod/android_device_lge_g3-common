@@ -9,7 +9,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     av.offload.enable=false \
-    av.streaming.offload.enable=false
+    av.streaming.offload.enable=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
     mm.enable.smoothstreaming=true
