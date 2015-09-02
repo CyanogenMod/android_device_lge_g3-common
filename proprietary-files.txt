@@ -223,6 +223,7 @@ bin/irsc_util
 # Radio
 -app/qcrilmsgtunnel/qcrilmsgtunnel.apk:app/qcrilmsgtunnel.apk
 -app/shutdownlistener/shutdownlistener.apk:app/shutdownlistener.apk
+bin/radish
 etc/permissions/qcnvitems.xml
 etc/permissions/qcrilhook.xml
 -framework/qcnvitems.jar
