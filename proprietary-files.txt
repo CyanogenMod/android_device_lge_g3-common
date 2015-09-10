@@ -9,17 +9,17 @@ vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
-etc/acdbdata/g3/Bluetooth_cal.acdb
-etc/acdbdata/g3/General_cal.acdb
-etc/acdbdata/g3/Global_cal.acdb
-etc/acdbdata/g3/Handset_cal.acdb
-etc/acdbdata/g3/Hdmi_cal.acdb
-etc/acdbdata/g3/Headset_cal.acdb
-etc/acdbdata/g3/Speaker_cal.acdb
+etc/acdbdata/Bluetooth_cal.acdb
+etc/acdbdata/General_cal.acdb
+etc/acdbdata/Global_cal.acdb
+etc/acdbdata/Handset_cal.acdb
+etc/acdbdata/Hdmi_cal.acdb
+etc/acdbdata/Headset_cal.acdb
+etc/acdbdata/Speaker_cal.acdb
 
 # Camera
 bin/mm-qcamera-daemon
-lib/hw/camera.vendor.msm8974.so
+lib/hw/camera.msm8974.so:lib/hw/camera.vendor.msm8974.so
 lib/libAlAisLib.so
 lib/libAlAisWrap.so
 lib/libAlAisTune.so
@@ -35,13 +35,16 @@ lib/libmorpho_noise_reduction.so
 lib/libmorpho_panorama_gp.so
 lib/libmorpho_video_denoiser.so
 lib/libqomx_core.so
-lib/libVDObjectTrackerAPI.so
+vendor/lib/libactuator_dw9714.so
+vendor/lib/libactuator_dw9714_camcorder.so
+vendor/lib/libactuator_dw9714_camera.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegehw.so
 vendor/lib/libmmcamera2_c2d_module.so
 vendor/lib/libmmcamera2_cpp_module.so
 vendor/lib/libmmcamera2_iface_modules.so
 vendor/lib/libmmcamera2_imglib_modules.so
+vendor/lib/libmmcamera2_is.so
 vendor/lib/libmmcamera2_isp_modules.so
 vendor/lib/libmmcamera2_pproc_modules.so
 vendor/lib/libmmcamera2_sensor_modules.so
@@ -52,12 +55,9 @@ vendor/lib/libmmcamera2_wnr_module.so
 vendor/lib/libmmcamera_faceproc.so
 vendor/lib/libmmcamera_hdr_gb_lib.so
 vendor/lib/libmmcamera_imglib.so
-vendor/lib/libmmcamera_imx091.so
-vendor/lib/libmmcamera_imx119.so
-vendor/lib/libmmcamera_imx135_eeprom.so
 vendor/lib/libmmcamera_imx135.so
 vendor/lib/libmmcamera_imx208.so
-vendor/lib/libmmcamera_imx214.so
+vendor/lib/libmmcamera_sonyimx135_eeprom.so
 vendor/lib/libmmcamera_tintless_algo.so
 vendor/lib/libmmcamera_tintless_bg_pca_algo.so
 vendor/lib/libmmcamera_tuning.so
@@ -70,17 +70,6 @@ vendor/lib/libqomx_jpegenc.so
 vendor/lib/libubifocus.so
 
 # Camera chromatix
-vendor/lib/libchromatix_imx091_common.so
-vendor/lib/libchromatix_imx091_default_video.so
-vendor/lib/libchromatix_imx091_hfr_120.so
-vendor/lib/libchromatix_imx091_liveshot.so
-vendor/lib/libchromatix_imx091_preview.so
-vendor/lib/libchromatix_imx091_snapshot.so
-vendor/lib/libchromatix_imx091_video_hd.so
-vendor/lib/libchromatix_imx119_common.so
-vendor/lib/libchromatix_imx119_default_video.so
-vendor/lib/libchromatix_imx119_liveshot.so
-vendor/lib/libchromatix_imx119_preview.so
 vendor/lib/libchromatix_imx135_30fps_common.so
 vendor/lib/libchromatix_imx135_30fps_default_video.so
 vendor/lib/libchromatix_imx135_30fps_fuji_common.so
@@ -112,18 +101,6 @@ vendor/lib/libchromatix_imx208_default_video.so
 vendor/lib/libchromatix_imx208_mms_video.so
 vendor/lib/libchromatix_imx208_preview.so
 vendor/lib/libchromatix_imx208_vt.so
-vendor/lib/libchromatix_imx214_common.so
-vendor/lib/libchromatix_imx214_default_video.so
-vendor/lib/libchromatix_imx214_hfr_120.so
-vendor/lib/libchromatix_imx214_hfr_60.so
-lib/libchromatix_imx214_liveshot.so:vendor/lib/libchromatix_imx214_liveshot.so
-vendor/lib/libchromatix_imx214_mms_video.so
-vendor/lib/libchromatix_imx214_preview.so
-vendor/lib/libchromatix_imx214_snapshot.so
-vendor/lib/libchromatix_imx214_uhd_video.so
-vendor/lib/libchromatix_imx214_video_dualrec.so
-vendor/lib/libchromatix_imx214_video_hd.so
-vendor/lib/libchromatix_imx214_video_qtr.so
 
 # Camera firmware
 etc/firmware/cpp_firmware_v1_1_1.fw
@@ -143,16 +120,15 @@ media/DLdata_rev28B_data3.ecl:etc/firmware/DLdata_rev28B_data3.ecl
 
 # DRM
 bin/qseecomd
+lib/drm/libdrmwvmplugin.so
 lib/libdrmdiag.so
 lib/libdrmfs.so
 lib/libdrmtime.so
-lib/liboemcrypto.so
 lib/libQSEEComAPI.so
 lib/librpmb.so
 lib/libssd.so
-lib/drm/libfwdlockengine.so
-vendor/lib/drm/libdrmwvmplugin.so
 vendor/lib/libdrmdecrypt.so
+vendor/lib/liboemcrypto.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/libwvm.so
 vendor/lib/libWVphoneAPI.so
@@ -161,8 +137,6 @@ vendor/lib/mediadrm/libdrmclearkeyplugin.so
 vendor/lib/mediadrm/libwvdrmengine.so
 
 # GPS
--app/com.qualcomm.location/com.qualcomm.location.apk:app/com.qualcomm.location.apk
--app/com.qualcomm.services.location/com.qualcomm.services.location.apk:app/com.qualcomm.services.location.apk
 etc/izat.conf
 etc/permissions/com.qualcomm.location.xml
 etc/quipc.conf
@@ -193,7 +167,7 @@ etc/firmware/a330_pfp.fw
 etc/firmware/a330_pm4.fw
 
 # Media
-lib/libDivxDrm.so
+vendor/lib/libDivxDrm.so
 vendor/lib/libExtendedExtractor.so
 -vendor/lib/libHevcSwDecoder.so
 vendor/lib/libI420colorconvert.so
@@ -208,10 +182,9 @@ vendor/lib/libOmxWmaDec.so
 
 # Perf
 bin/mpdecision
-vendor/lib/libqc-opt.so
+vendor/lib/libqti-perfd-client.so
 
 # Postprocessing
-bin/mm-pp-daemon
 vendor/lib/libdisp-aba.so
 vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so
