@@ -5,6 +5,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     audio.offload.gapless.enabled=false \
     audio.offload.multiple.enabled=false \
     audio.offload.pcm.enable=true \
+    audio.offload.disable=1 \
     media.aac_51_output_enabled=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
