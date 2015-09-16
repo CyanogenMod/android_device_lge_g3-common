@@ -1,3 +1,2 @@
-type display_sysfs, sysfs_type, file_type;
 type encrypt_block_device, dev_type;
 type vibe_dev, file_type;
