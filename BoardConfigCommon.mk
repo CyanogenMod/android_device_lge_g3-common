@@ -117,36 +117,5 @@ TARGET_RELEASE_CPPFLAGS += -DNEEDS_LGE_RIL_SYMBOLS
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += device/lge/g3-common/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    device.te \
-    file.te \
-    file_contexts \
-    genfs_contexts \
-    hostapd.te \
-    init_shell.te \
-    kernel.te \
-    keystore.te \
-    lge_touch_sysfs.te \
-    mm-pp-daemon.te \
-    mm-qcamerad.te \
-    mpdecision.te \
-    nfc.te \
-    platform_app.te \
-    property.te \
-    property_contexts \
-    radio.te \
-    rmt_storage.te \
-    sensors.te \
-    servicemanager.te \
-    sysinit.te \
-    system_app.te \
-    tee.te \
-    thermal-engine.te \
-    vibe_data_file.te \
-    ueventd.te \
-    vold.te \
-    wcnss_service.te \
-    wpa.te
-
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
