@@ -24,6 +24,7 @@
 #define CALIBRATION_PATH "/dev/block/platform/msm_sdcc.1/by-name/misc"
 
 #include <cutils/log.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
