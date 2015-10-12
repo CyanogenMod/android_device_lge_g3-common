@@ -108,7 +108,7 @@ struct frame {
     int min_capacity;
     bool level_only;
 
-    gr_surface surface;
+    GRSurface* surface;
 };
 
 struct animation {
@@ -138,7 +138,7 @@ struct charger {
     int num_supplies_online;
 
     struct animation *batt_anim;
-    gr_surface surf_unknown;
+    GRSurface* surf_unknown;
 
     struct power_supply *battery;
 };
@@ -157,43 +157,57 @@ static struct frame batt_anim_frames[] = {
         .name = "charger/battery_0",
         .disp_time = 350,
         .min_capacity = 0,
+        .level_only = NULL,
+        .surface = NULL,
     },
     {
         .name = "charger/battery_1",
         .disp_time = 350,
         .min_capacity = 15,
+        .level_only = NULL,
+        .surface = NULL,
     },
     {
         .name = "charger/battery_2",
         .disp_time = 350,
         .min_capacity = 35,
+        .level_only = NULL,
+        .surface = NULL,
     },
     {
         .name = "charger/battery_3",
         .disp_time = 350,
         .min_capacity = 55,
+        .level_only = NULL,
+        .surface = NULL,
     },
     {
         .name = "charger/battery_4",
         .disp_time = 350,
         .min_capacity = 75,
+        .level_only = NULL,
+        .surface = NULL,
     },
     {
         .name = "charger/battery_5",
         .disp_time = 350,
         .min_capacity = 95,
+        .level_only = NULL,
+        .surface = NULL,
     },
 };
 
 static struct animation battery_animation = {
+    .run = NULL,
     .frames = batt_anim_frames,
+    .cur_frame = 0,
     .num_frames = ARRAY_SIZE(batt_anim_frames),
+    .cur_cycle = 0,
     .num_cycles = 5,
+    .capacity = 0,
 };
 
-static struct charger charger_state = {
-    .batt_anim = &battery_animation,
-};
+static struct charger charger_state;
 
 static int char_width;
 static int char_height;
@@ -254,7 +268,7 @@ static void dump_last_kmsg(void)
     LOGI("\n");
     LOGI("*************** LAST KMSG ***************\n");
     LOGI("\n");
-    buf = load_file(LAST_KMSG_PATH, &sz);
+    buf = (char *)load_file(LAST_KMSG_PATH, &sz);
     if (!buf || !sz) {
         LOGI("last_kmsg not found. Cold reset?\n");
         goto out;
@@ -268,7 +282,7 @@ static void dump_last_kmsg(void)
         char yoink;
         char *nl;
 
-        nl = memrchr(ptr, '\n', cnt - 1);
+        nl = (char *)memrchr(ptr, '\n', cnt - 1);
         if (nl)
             cnt = nl - ptr + 1;
 
@@ -397,7 +411,7 @@ static struct power_supply *add_supply(struct charger *charger,
 {
     struct power_supply *supply;
 
-    supply = calloc(1, sizeof(struct power_supply));
+    supply = (power_supply *)calloc(1, sizeof(struct power_supply));
     if (!supply)
         return NULL;
 
@@ -596,7 +610,7 @@ static int handle_uevent_fd(struct charger *charger, int fd)
 
 static int uevent_callback(int fd, uint32_t revents, void *data)
 {
-    struct charger *charger = data;
+    struct charger *charger = (struct charger *)data;
 
     if (!(revents & POLLIN))
         return -1;
@@ -679,7 +693,7 @@ static int draw_text(const char *str, int x, int y)
 }
 
 /* returns the last y-offset of where the surface ends */
-static int draw_surface_centered(gr_surface surface)
+static int draw_surface_centered(GRSurface* surface)
 {
     int w;
     int h;
@@ -841,7 +855,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
 
 static int set_key_callback(int code, int value, void *data)
 {
-    struct charger *charger = data;
+    struct charger *charger = (struct charger *)data;
     int64_t now = curr_time_ms();
     int down = !!value;
 
@@ -997,7 +1011,7 @@ static void wait_next_event(struct charger *charger, int64_t now)
 
 static int input_callback(int fd, uint32_t revents, void *data)
 {
-    struct charger *charger = data;
+    struct charger *charger = (struct charger *)data;
     struct input_event ev;
     int ret;
 
@@ -1192,7 +1206,7 @@ void alarm_thread_create()
     pthread_t tid;
     int ret;
 
-    ret = pthread_create(&tid, NULL, alarm_thread, NULL);
+    ret = pthread_create(&tid, NULL, (void* (*)(void*))alarm_thread, NULL);
     if (ret < 0)
         LOGE("Create alarm thread failed\n");
 }
@@ -1204,6 +1218,8 @@ int main()
     int64_t now = curr_time_ms() - 1;
     int fd;
     int i;
+
+    charger->batt_anim = &battery_animation;
 
     list_init(&charger->supplies);
 

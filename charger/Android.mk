@@ -33,7 +33,7 @@ _img_modules :=
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
-    charger.c
+    charger.cpp
 
 LOCAL_CFLAGS += -DCHARGER_ENABLE_SUSPEND
 
@@ -45,7 +45,7 @@ LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_SBIN_UNSTRIPPED)
 LOCAL_ADDITIONAL_DEPENDENCIES := charger_res_images_g3
 LOCAL_C_INCLUDES := $(call project-path-for,recovery)
 
-LOCAL_STATIC_LIBRARIES := libminui libpixelflinger_static libpng
+LOCAL_STATIC_LIBRARIES := libminui libpng
 LOCAL_STATIC_LIBRARIES += libsuspend
 LOCAL_STATIC_LIBRARIES += libz libstdc++ libcutils liblog libm libc
 
