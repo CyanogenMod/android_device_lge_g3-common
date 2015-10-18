@@ -209,6 +209,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     init.galbi.thermal_conf.sh
 
+# RIL symbols
+PRODUCT_PACKAGES += \
+    liblge
+
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf

@@ -12,6 +12,8 @@ on early-init
     write /sys/block/mmcblk1/bdi/read_ahead_kb 512
 
 on init
+    export LD_PRELOAD /system/lib/liblge.so
+
     mkdir /persist 0771 system system
 
     mkdir /sns 0755 system system
@@ -57,8 +59,6 @@ on fs
     chown system system /sys/bus/i2c/devices/0-0036/lm3697_rt_mode
 
 on post-fs
-    # export LD_PRELOAD /vendor/lib/libNimsWrap.so
-
     start sreadahead
     chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
     chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
