@@ -143,17 +143,16 @@ media/DLdata_rev28B_data3.ecl:etc/firmware/DLdata_rev28B_data3.ecl
 
 # DRM
 bin/qseecomd
+lib/libdrmdiag.so
+lib/libdrmfs.so
+lib/libdrmtime.so
 lib/liboemcrypto.so
+lib/libQSEEComAPI.so
+lib/librpmb.so
+lib/libssd.so
 lib/drm/libfwdlockengine.so
 vendor/lib/drm/libdrmwvmplugin.so
 vendor/lib/libdrmdecrypt.so
-vendor/lib/libdrmdiag.so
-vendor/lib/libdrmfs.so
-vendor/lib/libdrmtime.so
-vendor/lib/libQSEEComAPI.so
-vendor/lib/librpmb.so
-vendor/lib/libssd.so
-vendor/lib/libStDrvInt.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/libwvm.so
 vendor/lib/libWVphoneAPI.so
