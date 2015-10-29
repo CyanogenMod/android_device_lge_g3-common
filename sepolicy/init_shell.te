@@ -1,2 +1,0 @@
-allow init_shell baseband_prop:property_service set;
-allow init_shell mmc_block_device:blk_file r_file_perms;

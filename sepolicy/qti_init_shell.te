@@ -1,0 +1,7 @@
+allow qti_init_shell baseband_prop:property_service set;
+allow qti_init_shell misc_partition:blk_file { open read };
+allow qti_init_shell qmuxd_socket:dir { add_name write };
+allow qti_init_shell qmuxd_socket:sock_file { create setattr write };
+allow qti_init_shell qmuxd_socket:unix_stream_socket { connectto };
+allow qti_init_shell sensors_data_file:dir setattr;
+allow qti_init_shell sensors_data_file:file { write getattr setattr };
