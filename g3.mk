@@ -210,6 +210,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     liblge
 
+# Stlport
+PRODUCT_PACKAGES += \
+    libstlport
+
 # Thermal
 PRODUCT_PACKAGES += \
     thermanager
