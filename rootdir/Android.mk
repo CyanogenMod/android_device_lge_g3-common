@@ -9,13 +9,6 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_SRC_FILES    := etc/init.galbi.bt.sh
 include $(BUILD_PREBUILT)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE       := init.galbi.thermal_conf.sh
-LOCAL_MODULE_TAGS  := optional eng
-LOCAL_MODULE_CLASS := ETC
-LOCAL_SRC_FILES    := etc/init.galbi.thermal_conf.sh
-include $(BUILD_PREBUILT)
-
 # Init scripts
 
 include $(CLEAR_VARS)
