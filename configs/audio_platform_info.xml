@@ -34,7 +34,6 @@
         <device name="SND_DEVICE_IN_HANDSET_MIC" acdb_id="63" />
         <device name="SND_DEVICE_IN_HEADSET_MIC_FLUENCE" acdb_id="8" />
         <device name="SND_DEVICE_IN_CAMCORDER_MIC" acdb_id="59" />
-        <device name="SND_DEVICE_IN_VOICE_REC_HEADSET_MIC" acdb_id="67" />
         <device name="SND_DEVICE_IN_VOICE_REC_MIC" acdb_id="62" />
         <device name="SND_DEVICE_IN_AANC_HANDSET_MIC" acdb_id="105" />
     </acdb_ids>
@@ -56,7 +55,6 @@
         <!-- Input devices -->
         <device name="SND_DEVICE_IN_HANDSET_MIC" alias="voice-memo" />
         <device name="SND_DEVICE_IN_CAMCORDER_MIC" alias="camcorder-0" />
-        <device name="SND_DEVICE_IN_VOICE_REC_HEADSET_MIC" alias="headset-mic-vr" />
         <device name="SND_DEVICE_IN_VOICE_REC_MIC" alias="handset-mic-vr" />
     </device_names>
 </audio_platform_info>
