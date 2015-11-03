@@ -323,6 +323,10 @@ on boot
     chmod 0775 /persist-lg/fota
     chmod 0775 /persist-lg/fota/silence.txt
 
+    # Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+
 on post-fs-data
     start last_kmsg_backup
 
