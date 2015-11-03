@@ -254,6 +254,9 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
+    # Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
     write /sys/module/lowmemorykiller/parameters/lmk_fast_run 0
 
     chown system system /sys/class/leds/red/pattern_id
@@ -271,7 +274,7 @@ on post-fs-data
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
-    mkdir /data/misc/fm 0770 system system
+    mkdir /data/misc/fm 0770 systelmkm system
 
     # CONFIG_LGE_WLAN_PATCH
     # to observe dnsmasq.leases file for dhcp information of soft ap.
