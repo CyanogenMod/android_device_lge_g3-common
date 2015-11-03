@@ -17,6 +17,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     use.voice.path.for.pcm.voip=true
 
+# Camera
+PRODUCT_PROPERTY_OVERRIDES += \
+    camera2.portability.force_api=1
+
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.hwc.mdpcomp.enable=true \
