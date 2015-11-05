@@ -1,0 +1,1 @@
+allow init sysfs_tap2wake:file setattr;

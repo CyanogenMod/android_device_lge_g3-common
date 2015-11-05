@@ -1,1 +1,0 @@
-allow radio lge_touch_sysfs:file rw_file_perms;

@@ -13,7 +13,7 @@
 /persist/sensors/sensors_settings	u:object_r:sensors_persist_file:s0
 /persist-lg(/.*)?			u:object_r:persist_drm_file:s0
 
-/sys/devices/virtual/input/lge_touch/lpwg_notify	u:object_r:lge_touch_sysfs:s0
+/sys/devices/virtual/input/lge_touch/tap_to_wake	u:object_r:sysfs_tap2wake:s0
 /sys/devices/platform/tspdrv/nforce_timed		u:object_r:vibe_dev:s0
 
 /sns(/.*)?			u:object_r:sensors_persist_file:s0
