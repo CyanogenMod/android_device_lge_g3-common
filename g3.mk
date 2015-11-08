@@ -119,17 +119,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
 
-# Keylayout
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/Button_Jack.kl:system/usr/keylayout/Button_Jack.kl \
-    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/keylayout/lgps11-keypad.kl:system/usr/keylayout/lgps11-keypad.kl
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/idc/keypad-8974.idc:system/usr/idc/keypad-8974.idc \
-    $(LOCAL_PATH)/idc/synaptics-ts.idc:system/usr/idc/synaptics-ts.idc \
-    $(LOCAL_PATH)/idc/touch_dev.idc:system/usr/idc/touch_dev.idc
-
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8974
