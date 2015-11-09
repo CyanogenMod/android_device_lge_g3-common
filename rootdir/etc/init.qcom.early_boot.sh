@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -26,28 +26,41 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#
-# Function to start sensors for DSPS enabled platforms
-#
-start_sensors()
-{
-    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
-        mkdir -p /data/system/sensors
-        touch /data/system/sensors/settings
-        chmod 775 /data/system/sensors
-        chmod 664 /data/system/sensors/settings
-        chown system /data/system/sensors/settings
+export PATH=/system/bin
 
-        mkdir -p /data/misc/sensors
-        chmod 775 /data/misc/sensors
+case "$1" in
+    "msm8974")
+        setprop ro.sf.lcd_density 320
+        ;;
+esac
 
-        if [ ! -s /data/system/sensors/settings ]; then
-            # If the settings file is empty, enable sensors HAL
-            # Otherwise leave the file with it's current contents
-            echo 1 > /data/system/sensors/settings
-        fi
-        start sensors
-    fi
-}
-
-start_sensors
+# Setup HDMI related nodes & permissions
+# HDMI can be fb1 or fb2
+# Loop through the sysfs nodes and determine
+# the HDMI(dtv panel)
+for fb_cnt in 0 1 2
+do
+file=/sys/class/graphics/fb$fb_cnt
+dev_file=/dev/graphics/fb$fb_cnt
+  if [ -d "$file" ]
+  then
+    value=`cat $file/msm_fb_type`
+    case "$value" in
+            "dtv panel")
+        chown -h system.graphics $file/hpd
+        chown -h system.system $file/hdcp/tp
+        chown -h system.graphics $file/vendor_name
+        chown -h system.graphics $file/product_description
+        chmod -h 0664 $file/hpd
+        chmod -h 0664 $file/hdcp/tp
+        chmod -h 0664 $file/vendor_name
+        chmod -h 0664 $file/product_description
+        chmod -h 0664 $file/video_mode
+        chmod -h 0664 $file/format_3d
+        # create symbolic link
+        ln -s $dev_file /dev/graphics/hdmi
+        # Change owner and group for media server and surface flinger
+        chown -h system.system $file/format_3d;;
+    esac
+  fi
+done

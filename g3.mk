@@ -181,13 +181,9 @@ PRODUCT_PACKAGES += \
     fstab.g3 \
     init.g3.rc \
     init.g3.usb.rc \
-    init.g3.usb.sh \
-    init.galbi.class_core.sh \
-    init.galbi.early_boot.sh \
-    init.galbi-sensor.sh \
-    init.galbi.sh \
-    init.galbi.syspart_fixup.sh \
-    init.galbi.usb.sh \
+    init.galbi.sensor.sh \
+    init.qcom.early_boot.sh \
+    init.qcom.sh \
     ueventd.g3.rc
 
 # RIL symbols

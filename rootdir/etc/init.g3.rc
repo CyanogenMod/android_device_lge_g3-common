@@ -26,21 +26,13 @@ on init
     symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
-    setprop ro.ssbd.session /dev/block/platform/msm_sdcc.1/by-name/eksst
-    setprop ro.ssbd.offset 0
-
-
+    # Immersion (immvibed)
     export VIBE_PIPE_PATH /dev/pipes
     mkdir /dev/pipes 0771 shell shell
-
-    chown system system /sys/devices/platform/lge_kernel_driver/run_cpu
-    chown system system /sys/devices/platform/lge_kernel_driver/eco_cpu
-
-    setprop vold.decrypt ""
-    setprop vold.encrypt_progress ""
+    restorecon /dev/pipes
 
 on fs
-    mount_all ./fstab.g3
+    mount_all fstab.g3
     restorecon_recursive /sns
     restorecon_recursive /persist
     restorecon_recursive /persist-lg
@@ -59,7 +51,6 @@ on fs
     chown system system /sys/bus/i2c/devices/0-0036/lm3697_rt_mode
 
 on post-fs
-    start sreadahead
     chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
     chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
     chown system system /sys/devices/virtual/input/lge_touch/incoming_call
@@ -72,7 +63,7 @@ on post-fs
     chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
 
 on post-fs-data
-    mkdir /data/tombstones 0775 system system
+    mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
     mkdir /tombstones/lpass 0771 system system
     mkdir /tombstones/wcnss 0771 system system
@@ -102,31 +93,24 @@ on post-fs-data
     chown system system /mpt
     chmod 0775 /mpt
 
-    mkdir /data/misc/gpsone_d 0770 system gps
+    # Location services
     mkdir /data/misc/location 0770 gps gps
     mkdir /data/misc/location/mq 0770 gps gps
     mkdir /data/misc/location/xtwifi 0770 gps gps
-    mkdir /data/misc/quipc 0770 system gps
+    mkdir /data/misc/location/gpsone_d 0770 system gps
+    mkdir /data/misc/location/quipc 0770 gps system
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
-    exec /system/bin/sh /init.galbi.early_boot.sh ${ro.board.platform}
+    exec /system/bin/sh /init.qcom.early_boot.sh ${ro.board.platform}
     exec /system/bin/sh /system/etc/init.qcom.wifi.sh ${ro.board.platform} ${ro.serialno}
     exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
+
     # disable lmk_fast_run
     write /sys/module/lowmemorykiller/parameters/lmk_fast_run 0
 
 on boot
-    # bring CPUs online
-    write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/module/msm_thermal/core_control/enabled 1
-
-    insmod /system/lib/modules/adsprpc.ko
-
     # BCM
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
@@ -154,8 +138,6 @@ on boot
     symlink /dev/pn547 /dev/pn544
 
     # Vibrator
-    chown system system /sys/class/timed_output/vibrator/amp
-    chmod 0660 /sys/class/timed_output/vibrator/amp
     chown system system /sys/class/timed_output/vibrator/enable
     chmod 0660 /sys/class/timed_output/vibrator
 
@@ -166,12 +148,6 @@ on boot
     # Polynomial Color Correction
     chown system system /sys/devices/virtual/graphics/fb0/rgb
     chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
-
-    # led
-    chown system system /sys/class/leds/button-backlight1/brightness
-    chown system system /sys/class/leds/button-backlight2/brightness
-    chmod 0660 /sys/class/leds/button-backlight1/brightness
-    chmod 0660 /sys/class/leds/button-backlight2/brightness
 
     # Flashlight
     chown system system /sys/class/leds/torch-light/brightness
@@ -214,28 +190,14 @@ on boot
 
     write /sys/class/leds/lcd-backlight/brightness 177
 
-# Bluetooth tethering
+    # Bluetooth tethering
     setprop bluetooth.pan true
 
-# MPDN
+    # MPDN
     setprop ro.support_mpdn true
-
-    mkdir /data/connectivity 0775 system system
-    mkdir /data/connectivity/nsrm 0775 system system
 
     write /proc/sys/net/core/rmem_max  3461120
     write /proc/sys/net/core/wmem_max  3461120
-
-    # lp5521
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_current_index
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_pattern
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_blink
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/led_current
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/led_current
-    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/led_current
 
     # SCMS-T property set during phone Booting
     setprop persist.service.bdroid.a2dp_con 0
@@ -246,16 +208,12 @@ on boot
     chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
     chown system system /sys/devices/virtual/input/lge_touch/tap_to_wake
     chmod 664 /sys/devices/virtual/input/lge_touch/tap_to_wake
-    write /sys/devices/virtual/input/lge_touch/tap_to_wake 1
     chown system system /sys/devices/virtual/input/lge_touch/lpwg_test_info
     chmod 644 /sys/devices/virtual/input/lge_touch/lpwg_test_info
     chown system system /sys/devices/virtual/input/lge_touch/lpwg_test_ctrl
     chmod 644 /sys/devices/virtual/input/lge_touch/lpwg_test_ctrl
     chown system system /sys/devices/virtual/input/lge_touch/touch_wake_up_test
     chmod 664 /sys/devices/virtual/input/lge_touch/touch_wake_up_test
-
-    chown bluetooth net_bt_stack /dev/btlock
-    chmod 0600 /dev/btlock
 
     # Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -267,16 +225,9 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
-    # Allow QMUX daemon to assign port open wait time
-    chown radio radio /sys/devices/virtual/hsicctl/hsicctl0/modem_wait
-
     setprop wifi.interface wlan0
 
     setprop ro.telephony.call_ring.multiple false
-
-    # Set SUID bit for usbhub
-    chmod 4755 /system/bin/usbhub
-    chmod 755 /system/bin/usbhub_init
 
     # Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
@@ -308,6 +259,12 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 
+    # To prevent out of order acknowledgements from making
+    # connection tracking to treat them as not belonging to
+    # the connection they belong to.
+    # Otherwise, a weird issue happens in which some long
+    # connections on high-throughput links get dropped when
+    # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
     # setup permissions for IrRC  UART
@@ -317,35 +274,22 @@ on boot
     # enable exfat feature
     insmod /system/lib/modules/texfat.ko
 
-    # silent reboot
-    mkdir /persist-lg/fota 0770 system lg_fota
-    chown system lg_fota /persist-lg/fota
-    chmod 0775 /persist-lg/fota
-    chmod 0775 /persist-lg/fota/silence.txt
-
     # Adaptive LMK
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
 
 on post-fs-data
-    start last_kmsg_backup
-
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
-    mkdir /data/misc/wifi 0771 wifi system
-
+    mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
+
+    # CONFIG_LGE_WLAN_PATCH
+    # to observe dnsmasq.leases file for dhcp information of soft ap.
     chown dhcp system /data/misc/dhcp
-
-    mkdir /data/misc/wide-dhcpv6 0770 dhcp dhcp
-    chown dhcp system /data/misc/wide-dhcpv6
-
-    # Create the directory used by CnE subsystem
-    mkdir /data/connectivity 0771 system system
-    chown system system /data/connectivity
 
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
@@ -386,22 +330,6 @@ on post-fs-data
 
     mkdir /data/system 0775 system system
 
-    # Create directories for QuIPS
-    mkdir /data/misc/quipc 0770 gps system
-
-    # Create directories for Location services
-    mkdir /data/misc/location 0770 gps gps
-    mkdir /data/misc/location/mq 0770 gps gps
-    mkdir /data/misc/location/xtwifi 0770 gps gps
-
-    # Create directory from IMS services
-    mkdir /data/shared 0755
-    chown system system /data/shared
-
-    # Create directory for FOTA
-    mkdir /data/fota 0771
-    chown system system /data/fota
-
     # Create directory for hostapd
     mkdir /data/hostapd 0770 system wifi
 
@@ -409,8 +337,6 @@ on post-fs-data
     mkdir /data/time/ 0700 system system
 
     mkdir /data/audio/ 0770 media audio
-    # Enable the setgid bit on the directory
-    chmod 2770 /data/audio
 
     setprop vold.post_fs_data_done 1
 
@@ -426,24 +352,6 @@ service adsprpcd /system/bin/adsprpcd
    user media
    group media
 
-service amp_init /system/bin/amploader -i
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service amp_load /system/bin/amploader -l 7000
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service amp_unload /system/bin/amploader -u
-    class late_start
-    user root
-    disabled
-    oneshot
-
 service atd /system/bin/atd /dev/ttyGS0 /dev/smd0
    socket atd stream 0660 system inet
    disabled
@@ -458,43 +366,11 @@ service audiod /system/bin/audiod
    user system
    group system
 
-service battery_monitor /system/bin/battery_monitor
-    user system
-    group system
-    disabled
-
-service bdaddr_loader /system/bin/bdaddr_loader
-    user root
-    group bluetooth net_bt_admin misc net_bt_stack
-    disabled
-    oneshot
-
-service bluetoothd /system/bin/logwrapper /system/bin/bluetoothd -n
-    class main
-    socket bluetooth stream 660 bluetooth bluetooth
-    socket dbus_bluetooth stream 660 bluetooth bluetooth
-    # init.rc does not yet support applying capabilities, so run as root and
-    # let bluetoothd drop uid to bluetooth with the right linux capabilities
-    group bluetooth net_bt_admin misc net_bt_stack
-    disabled
-
-service bnrd /system/bin/bnrd
-    class main
-    socket bnrd stream 660 root system
-    user root
-    group system radio sdcard_rw
-
 service bridgemgrd /system/bin/bridgemgrd
     class late_start
     user radio
     group radio qcom_diag
     disabled
-
-service bt-aptx-tuning /system/bin/sh /system/etc/bt.aptx.tuning.sh
-    user system
-    group system
-    disabled
-    oneshot
 
 service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
     class late_start
@@ -522,21 +398,6 @@ service charger /sbin/healthd -c
 service cnd /system/bin/cnd
     class late_start
     socket cnd stream 660 root inet
-
-service dbus /system/bin/dbus-daemon --system --nofork
-    class main
-    socket dbus stream 660 bluetooth bluetooth
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-
-service dhcp6c_wlan0 /system/bin/dhcp6c -c "/etc/wide-dhcpv6/dhcp6c.conf" -Df wlan0
-    disabled
-    oneshot
-
-service dhcp6cDNS_wlan0 /system/bin/dhcp6c -c "/etc/wide-dhcpv6/dhcp6cDNS.conf" -Df wlan0
-    disabled
-    oneshot
 
 service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
     disabled
@@ -573,76 +434,6 @@ service dhcpcd_wlan0 /system/bin/dhcpcd -ABDKL
     disabled
     oneshot
 
-service diagd /system/bin/diagd 
-    class late_start
-    user root
-    group radio system
-    disabled
-    oneshot
-    socket lsock_diagd stream 666
-
-service drmdiag /system/bin/drmdiagapp
-    class late_start
-     user root
-     disabled
-     oneshot
-
-service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
-    class late_start
-    group radio wifi inet
-    disabled
-    oneshot
-
-service dsqn /system/bin/dsqn
-    disabled
-    user root
-
-service fastmmi /system/bin/mmi
-    user root
-    group root
-    disabled
-    oneshot
-
-service ftm_ptt /system/bin/ftm_ptt -d
-    class late_start
-    user root
-    group radio
-    disabled
-    oneshot
-
-service ftmd /system/bin/logwrapper /system/bin/ftmdaemon
-    class late_start
-    user root
-    group bluetooth net_bt_admin misc net_bt_stack qcom_diag
-    disabled
-    oneshot
-
-service gbmonitor /system/bin/gbmonitor
-   class main
-   user system
-   group system
-
-service gsiff_daemon /system/bin/gsiff_daemon
-    class late_start
-    user gps
-    group gps net_raw misc
-
-service hcidump /system/bin/sh /system/etc/hcidump.sh
-    user bluetooth
-    group bluetooth system net_bt_admin net_admin
-    disabled
-    oneshot
-
-service hdmid /system/bin/hdmid
-    class late_start
-    socket hdmid stream 0660 root system graphics
-    disabled
-
-service ims_regmanager /system/bin/exe-ims-regmanagerprocessnative
-    class late_start
-    group qcom_oncrpc net_bt_admin inet radio wifi
-    disabled
-
 service immvibed /system/bin/immvibed
     class main
     user shell
@@ -664,63 +455,16 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service ipsecclient /system/bin/ipsecclient
-    class main
-    group system net_admin net_raw
-    disabled
-
-service ipsecstarter /system/bin/ipsecstarter
-    class main
-    user system
-    group system net_admin net_raw
-
 service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
     oneshot
-
-service last_kmsg_backup /system/bin/sh /system/etc/last_kmsg_backup.sh
-    class main
-    disabled
-    oneshot
-
-service lg_dm_router1 /system/bin/lg_dm_router 1
-    class late_start
-    user system
-    group system sdcard_r sdcard_rw
-    disabled
-    oneshot
-
-service lg_dm_router2 /system/bin/lg_dm_router 2
-    class late_start
-    user system
-    group system
-    disabled
-    socket Full.DM.port stream 660 system system
-
-service lg_odm_service /system/bin/lg_odm_service
-    class late_start
-    user system
-    group system net_raw sdcard_r sdcard_rw
-    disabled
-    oneshot
-    socket Full.ODM.port stream 660 system system
 
 service location_mq /system/bin/location-mq
     class late_start
     user gps
     group gps
     disabled
-
-service log-kernel /system/bin/sh /system/bin/logger_kernel.sh
-    class main
-    disabled
-    oneshot
-
-service log-power /system/bin/sh /system/bin/logger_power.sh
-    class main
-    disabled
-    oneshot
 
 service lowi-server /system/bin/lowi-server
     class late_start
@@ -777,58 +521,25 @@ service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
     group system inet
     disabled
 
-service pppoe_extd /system/bin/pppoe_extd
-    user root
-    group system radio
-    disabled
-    oneshot
-
-service profiler_daemon /system/bin/profiler_daemon
-    class late_start
-    user root
-    group root
-    disabled
-
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
     user camera
     group camera system inet input graphics
 
-service qgesturesvr /system/bin/mm-gesture-daemon
-    class late_start
-    user system
-    group system camera input graphics net_bt_stack
-
-service qcom-c_core-sh /system/bin/sh /init.galbi.class_core.sh
-    class core
-    user root
-    oneshot
-
-service qcom-sensor-sh /system/bin/sh /init.galbi-sensor.sh
+service qcom-sensor-sh /system/bin/sh /init.galbi.sensor.sh
     class main
     user root
     oneshot
 
-service qcom-sh /system/bin/sh /init.galbi.sh
+service qcom-sh /system/bin/sh /init.qcom.sh
     class late_start
     user root
     oneshot
-
-service qmiproxy /system/bin/qmiproxy
-    class main
-    user radio
-    group radio qcom_diag
-    disabled
 
 service qmuxd /system/bin/qmuxd
     class core
     user radio
     group radio audio bluetooth gps qcom_diag
-
-service qosmgrd /system/bin/qosmgr /system/etc/qosmgr_rules.xml
-   user system
-   group system
-   disabled
 
 service qseecomd /system/bin/qseecomd
     class core
@@ -847,43 +558,16 @@ service quipc_main /system/bin/quipc_main
     group gps net_admin wifi inet
     disabled
 
-service ril-qmi /system/bin/sh /init.galbi.ril.sh
-    class main
-    user root
-    oneshot
-
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
     disabled
-
-service runtime_boot_res /system/vendor/bin/runtime_boot_res.sh
-    disabled
-    oneshot
 
 service sensors /system/bin/sensors.qcom
     class main
     user root
     group root
     disabled
-
-service ssr_dump /system/bin/subsystem_ramdump 1
-    class late_start
-    user system
-    group system sdcard_r sdcard_rw
-    disabled
-
-service svelteon /system/bin/logwrapper /system/bin/sh /system/etc/init.lge.svelte.sh start
-	user root
-	group system
-	disabled
-	oneshot
-
-service svelteoff /system/bin/logwrapper /system/bin/sh /system/etc/init.lge.svelte.sh stop
-	user root
-	group system
-	disabled
-	oneshot
 
 # OSS thermal management
 service thermanager /system/bin/thermanager /system/etc/thermanager.xml
@@ -897,91 +581,10 @@ service time_daemon /system/bin/time_daemon
    user root
    group root
 
-service ufips /system/bin/ufips
-    class core
-    user system
-    group system
-
-service usbdebug-manager /system/bin/usbdebug-manager
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service usbhub_init /system/bin/usbhub_init
-   class late_start
-   user root
-   disabled
-   oneshot
-
-service usf_epos /system/bin/usf_epos
-    user system
-    group system inet
-    disabled
-
-service usf_gesture /system/bin/usf_gesture
-    user system
-    group system inet
-    disabled
-
-service usf_hovering /system/bin/usf_hovering
-    user system
-    group system inet
-    disabled
-
-service usf_p2p /system/bin/usf_p2p
-    user system
-    group system inet
-    disabled
-
-service usf_proximity /system/bin/usf_proximity
-    user system
-    group system inet
-    disabled
-
-service usf_tester /system/bin/usf_tester
-    user system
-    group system inet
-    disabled
-
-service vpnclientpm /system/bin/vpnclientpm3 \
-    -O /data/data/com.ipsec.service/vpnclientpm.txt \
-    -U rmnet0,rmnet_usb0,wlan0,bt-pan,rndis0,p2p0,eth0
-    socket vpnclientpm seqpacket 0666
-    # uid dropped to system when capabilities are set
-    class main
-    group system net_admin net_raw
-    disabled
-
 service wcnss-service /system/bin/wcnss_service
     class main
     user root
     group system wifi qcom_diag radio
-    oneshot
-
-service write_event_log /system/bin/write_event_log 55000
-    user system
-    group system
-    disabled
-    oneshot
-
-service wifi-crda /system/bin/sh /system/etc/init.crda.sh
-   class late_start
-   user root
-   disabled
-   oneshot
-
-service wifi-sdio-on /system/bin/sh /system/etc/init.galbi.sdio.sh
-    class late_start
-    group wifi inet
-    disabled
-    oneshot
-
-service wifi_ssr_setting /system/bin/sh /system/etc/init.g3.ssr.wifi.sh
-    class late_start
-    user root
-    group system
-    disabled
     oneshot
 
 service xtwifi_client /system/bin/xtwifi-client
@@ -996,15 +599,6 @@ service xtwifi_inet /system/bin/xtwifi-inet-agent
     group inet gps
     disabled
 
-on ffbm
-    start fastmmisrv
-
-on property:bluetooth.aptx_streaming=1
-    start bt-aptx-tuning
-
-on property:bluetooth.aptx_streaming=0
-    start bt-aptx-tuning
-
 on property:bluetooth.hsic_ctrl=load_wlan
     start bt_hsic_control
 
@@ -1012,7 +606,6 @@ on property:bluetooth.hsic_ctrl=unbind_hsic
     start bt_hsic_control
 
 on property:bluetooth.isEnabled=true
-    start btwlancoex
     write /sys/class/bluetooth/hci0/idle_timeout 7000
 
 on charger
@@ -1049,60 +642,11 @@ on charger
     write /sys/devices/system/cpu/cpu3/online 0
     start mpdecision
 
-on property:crypto.driver.load=1
-     insmod /system/lib/modules/qce.ko
-     insmod /system/lib/modules/qcedev.ko
-
-on property:crypto.driver.load=0
-     exec /system/bin/rmmod qcedev.ko
-     exec /system/bin/rmmod qce.ko
-
-on property:drmdiag.load=1
-    start drmdiag
-
-on property:drmdiag.load=0
-    stop drmdiag
-
-on property:hw.ftm_ptt_start=1
-    start ftm_ptt
-
-on property:hw.ftm_ptt_start=0
-    stop ftm_ptt
-
-on property:init.svc.bootanim=stopped
-    start write_event_log
-
 on property:init.svc.surfaceflinger=stopped
     stop ppd
-    stop hdmid
 
 on property:init.svc.wpa_supplicant=stopped
-    stop dhcpcd
-    stop dhcp6c
-
-on property:persist.data.ds_fmc_app.mode=1
-    start ds_fmc_appd
-
-on property:persist.ims.regmanager.mode=1
-    start ims_regmanager
-
-on property:persist.service.dsqn=1
-    start dsqn
-
-on property:persist.service.dsqn=0
-    stop dsqn
-
-on property:persist.service.dm_app.enable=true
-    start lg_dm_router2
-
-on property:persist.service.dm_app.enable=false
-    stop lg_dm_router2
-
-on property:persist.service.crash.enable=0
-    restart service-crash
-
-on property:persist.service.crash.enable=1
-    restart service-crash
+    stop dhcpcdc
 
 on property:persist.service.fakebatt=0
     write /sys/class/power_supply/battery/pseudo_batt "0 1 100 40 4100000 80 1"
@@ -1110,56 +654,8 @@ on property:persist.service.fakebatt=0
 on property:persist.service.fakebatt=1
     write /sys/class/power_supply/battery/pseudo_batt "1 1 100 40 4100000 80 1"
 
-on property:persist.service.kernel.enable=0
-    stop log-kernel
-
-on property:persist.service.kernel.enable=1
-    restart log-kernel
-
-on property:persist.service.kernel.enable=2
-    restart log-kernel
-
-on property:persist.service.kernel.enable=3
-    restart log-kernel
-
-on property:persist.service.kernel.enable=4
-    restart log-kernel
-
-on property:persist.service.kernel.enable=5
-    restart log-kernel
-
-on property:persist.service.kernel.enable=6
-    restart log-kernel
-
-on property:persist.service.odm_app.enable=true
-    start lg_odm_service
-
-on property:persist.service.odm_log.enable=true
-     start lg_dm_router1
-
-on property:persist.service.rivadump.enable=1
-    write /sys/module/pil_pronto/parameters/enable_pronto_ramdump 1
-    start riva_ramdump
-
-on property:persist.service.rivadump.enable=0
-    write /sys/module/pil_pronto/parameters/enable_pronto_ramdump 0
-    stop riva_ramdump
-
-on property:persist.service.ssr_dump.enable=1
-    write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
-    start ssr_dump
-
-on property:persist.service.ssr_dump.enable=0
-    write /sys/module/subsystem_restart/parameters/enable_ramdumps 0
-    stop ssr_dump
-
-on property:persist.service.usb_ther=true
-
-on property:persist.service.usb_ther=false
-
 on property:persist.sys.ssr.restart_level=1
     write /sys/module/subsystem_restart/parameters/restart_level 1
-    write /sys/module/wcnss_ssr_8960/parameters/enable_riva_ssr 0
     write /sys/bus/msm_subsys/devices/subsys0/restart_level system
     write /sys/bus/msm_subsys/devices/subsys1/restart_level system
     write /sys/bus/msm_subsys/devices/subsys2/restart_level system
@@ -1167,14 +663,10 @@ on property:persist.sys.ssr.restart_level=1
 
 on property:persist.sys.ssr.restart_level=3
     write /sys/module/subsystem_restart/parameters/restart_level 3
-    write /sys/module/wcnss_ssr_8960/parameters/enable_riva_ssr 1
     write /sys/bus/msm_subsys/devices/subsys0/restart_level system
     write /sys/bus/msm_subsys/devices/subsys1/restart_level related
     write /sys/bus/msm_subsys/devices/subsys2/restart_level related
     write /sys/bus/msm_subsys/devices/subsys3/restart_level related
-
-on property:persist.sys.ssr.restart_level_w=*
-     start wifi_ssr_setting
 
 on property:persist.usb.chgdisabled=0
     write /sys/class/power_supply/battery/charging_enabled 1
@@ -1185,20 +677,8 @@ on property:persist.usb.chgdisabled=1
 on property:ro.baseband="msm"
    start atd
 
-on property:ro.bluetooth.ftm_enabled=true
-    start ftmd
-
-on property:ro.board.platform=msm7630_fusion
-    start usbhub_init
-
 on property:ro.boot.emmc=true
     start rmt_storage
-
-on property:ro.boot.svelte=1
-	start svelteon
-
-on property:ro.build.sbp=1
-    start runtime_boot_res
 
 on property:ro.data.large_tcp_window_size=true
     write /proc/sys/net/ipv4/tcp_adv_win_scale  2
@@ -1206,14 +686,8 @@ on property:ro.data.large_tcp_window_size=true
 on property:ro.lge.zwait=true
     chown system system /sys/class/zwait/state
 
-on property:ro.qc.bluetooth.stack=bluez
-    start dbus
-
 on property:ro.use_data_netmgrd=false
     stop netmgrd
-
-on property:sys.boot_completed=1
-    start qrngp
 
 on property:sys.lge.touchfirmware.update=1
     write /sys/devices/virtual/input/lge_touch/firmware 1
@@ -1227,17 +701,6 @@ on property:sys.mts.forcemts=0
 
 on property:vold.decrypt=trigger_restart_framework
     start sensors
-    start qcom-c_main-sh
-    start config_bluetooth
-
-on property:wifi_ftm.diagd_start=1
-    start diagd
-
-on property:wifi_ftm.diagd_start=0
-    stop diagd
-
-on usb_debug
-    start usbdebug-manager
 
 on property:service.bootanim.exit=1
     write /sys/devices/system/cpu/cpu1/online 1
