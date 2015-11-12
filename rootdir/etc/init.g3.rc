@@ -327,6 +327,8 @@ on boot
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
 
+    trigger enable-low-power
+
 on post-fs-data
     start last_kmsg_backup
 
@@ -728,8 +730,9 @@ service lowi-server /system/bin/lowi-server
     disabled
 
 service mpdecision /system/bin/mpdecision --avg_comp
+    class late_start
     user root
-    disabled
+    group system
 
 service mtsd /system/bin/mtsd
     class late_start
@@ -1263,8 +1266,7 @@ on property:init.svc.bootanim=running
     # Disable LG screen sharpening
     write /sys/devices/virtual/graphics/fb0/sharpening 0
 
-on property:init.svc.bootanim=stopped
-    stop mpdecision
+on enable-low-power
     write /sys/devices/system/cpu/cpu1/online 1
     write /sys/devices/system/cpu/cpu2/online 1
     write /sys/devices/system/cpu/cpu3/online 1
@@ -1287,6 +1289,5 @@ on property:init.svc.bootanim=stopped
     write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1190400
 
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
-    start mpdecision
 
     setprop sys.io.scheduler bfq
