@@ -76,6 +76,9 @@ LOCAL_SHARED_LIBRARIES := \
     libgps.utils \
     libdl
 
+ifneq ($(filter $(TARGET_DEVICE), apq8084 msm8960), false)
+endif
+
 LOCAL_SRC_FILES += \
     loc.cpp \
     gps.c
@@ -94,7 +97,7 @@ LOCAL_C_INCLUDES:= \
     $(TARGET_OUT_HEADERS)/libloc_core
 
 LOCAL_PRELINK_MODULE := false
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+LOCAL_MODULE_RELATIVE_PATH := hw
 
 include $(BUILD_SHARED_LIBRARY)
 
