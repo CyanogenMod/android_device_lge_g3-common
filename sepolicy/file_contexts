@@ -3,6 +3,7 @@
  
 /data/system/default_values         u:object_r:mpctl_data_file:s0
  
+/dev/ttyHSL1                        u:object_r:cir_device:s0
 /dev/pn547                          u:object_r:nfc_device:s0
 /dev/rfkill                         u:object_r:wpa_device:s0
 /dev/socket/mpctl                   u:object_r:mpctl_socket:s0

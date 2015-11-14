@@ -1,6 +1,7 @@
 allow system_server init:unix_stream_socket getopt;
 allow system_server sysfs_tap2wake:file rw_file_perms;
 allow system_server time_daemon:unix_stream_socket connectto;
+allow system_server cir_device:chr_file { open read write ioctl };
 allow system_server vibe_dev:file rw_file_perms;
 allow system_server sysfs_usb_supply:dir search;
 allow system_server sysfs_usb_supply:file { open read getattr };

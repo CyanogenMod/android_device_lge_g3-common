@@ -1,1 +1,2 @@
+type cir_device, dev_type;
 type wpa_device, dev_type;
