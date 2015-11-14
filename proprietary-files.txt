@@ -202,8 +202,8 @@ etc/permissions/qcrilhook.xml
 -framework/qcrilhook.jar
 
 # IR
-vendor/lge/g3-common/proprietary/lib/libcir_driver.so
-vendor/lge/g3-common/proprietary/lib/hw/consumerir.msm8974.so
+lib/libcir_driver.so
+lib/hw/consumerir.msm8974.so
 
 # Thermal
 bin/thermal-engine
