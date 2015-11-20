@@ -1,3 +1,1 @@
-allow wcnss_service block_device:dir search;
 allow wcnss_service misc_partition:blk_file r_file_perms;
-#allow wcnss_service mmc_block_device:dir search;

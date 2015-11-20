@@ -1,1 +1,1 @@
-allow hostapd wpa_device:chr_file r_file_perms;
+allow hostapd rfkill_device:chr_file r_file_perms;

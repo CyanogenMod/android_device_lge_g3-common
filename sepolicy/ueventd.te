@@ -1,2 +1,2 @@
-allow ueventd vibe_dev:file { getattr relabelto };
+allow ueventd sysfs_vibe:file { getattr relabelto };
 allow ueventd vfat:file { open getattr read };

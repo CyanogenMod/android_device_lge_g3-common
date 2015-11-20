@@ -1,6 +1,2 @@
-type encrypt_block_device, dev_type;
-type modem_block_device, dev_type;
-
-type vibe_dev, file_type;
-
-type sysfs_tap2wake, sysfs_type;
+type sysfs_tap2wake, fs_type, sysfs_type;
+type sysfs_vibe, fs_type, sysfs_type;

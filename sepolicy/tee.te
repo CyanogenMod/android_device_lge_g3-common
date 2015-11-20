@@ -1,2 +1,0 @@
-allow tee encrypt_block_device:blk_file rw_file_perms;
-allow tee unlabeled:dir search;

@@ -1,2 +1,3 @@
 allow init sysfs_tap2wake:file setattr;
+allow init sysfs_vibe:file getattr;
 allow init tune2fs_exec:file { open read getattr execute };
