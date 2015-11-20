@@ -516,9 +516,10 @@ service bt_hsic_control /system/bin/sh /system/etc/hsic.control.bt.sh
     user root
     disabled
 
-service charger /sbin/charger_g3
+service charger /sbin/healthd -c
     class charger
     critical
+    seclabel u:r:healthd:s0
 
 service cnd /system/bin/cnd
     class late_start
@@ -1022,16 +1023,38 @@ on property:bluetooth.isEnabled=true
     write /sys/class/bluetooth/hci0/idle_timeout 7000
 
 on charger
-   stop bootlogo
-   mount_all ./fstab.g3
-   write /sys/class/android_usb/android0/enable 0
-   write /sys/class/android_usb/android0/idVendor 1004
-   write /sys/class/android_usb/android0/idProduct 6300
-   write /sys/class/android_usb/android0/bDeviceClass 0
-   write /sys/class/android_usb/android0/bDeviceSubClass 0
-   write /sys/class/android_usb/android0/bDeviceProtocol 0
-   write /sys/class/android_usb/android0/functions charge_only
-   write /sys/class/android_usb/android0/enable 1
+    # Booting modem
+    wait /dev/block/platform/msm_sdcc.1/by-name/modem
+    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower,uid=1000,gid=1026,dmask=227,fmask=337,context=u:object_r:firmware_file:s0
+    wait /dev/block/platform/msm_sdcc.1/by-name/system
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/system /system ro barrier=1
+    start rmt_storage
+    start irsc_util
+
+    # Enable Power modes and set the CPU Freq Sampling rates
+    write /sys/module/lpm_levels/enable_low_power/l2 2
+    write /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled 1
+    write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled 1
+    write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "powersave"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "powersave"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 300000
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 300000
+    write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    start mpdecision
 
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
