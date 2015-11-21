@@ -327,8 +327,6 @@ on boot
     write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
     write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
 
-    trigger enable-low-power
-
 on post-fs-data
     start last_kmsg_backup
 
@@ -734,6 +732,7 @@ service mpdecision /system/bin/mpdecision --avg_comp
     class late_start
     user root
     group system
+    disabled
 
 service mtsd /system/bin/mtsd
     class late_start
@@ -1247,6 +1246,31 @@ on usb_debug
     start usbdebug-manager
 
 on property:service.bootanim.exit=1
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/class/devfreq/qcom,cpubw.41/governor "cpubw_hwmon"
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1400000:40000 1700000:20000"
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
+    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 30000
+    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 100000
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 30000
+    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load 50
+    write /sys/devices/system/cpu/cpufreq/interactive/sync_freq 1036800
+    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1190400
+
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+
+    setprop sys.io.scheduler bfq
+
     write /sys/module/lpm_levels/enable_low_power/l2 "4"
     write /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled "1"
     write /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled "1"
@@ -1286,32 +1310,8 @@ on property:service.bootanim.exit=1
     write /sys/module/cpu_boost/parameters/input_boost_freq "1497600"
     write /sys/module/cpu_boost/parameters/input_boost_ms "40"
 
+    start mpdecision
+
 on property:init.svc.bootanim=running
     # Disable LG screen sharpening
     write /sys/devices/virtual/graphics/fb0/sharpening 0
-
-on enable-low-power
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/class/devfreq/qcom,cpubw.41/governor "cpubw_hwmon"
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1400000:40000 1700000:20000"
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 30000
-    write /sys/devices/system/cpu/cpufreq/interactive/sampling_down_factor 100000
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 30000
-    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_load 50
-    write /sys/devices/system/cpu/cpufreq/interactive/sync_freq 1036800
-    write /sys/devices/system/cpu/cpufreq/interactive/up_threshold_any_cpu_freq 1190400
-
-    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
-
-    setprop sys.io.scheduler bfq
