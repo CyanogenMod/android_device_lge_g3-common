@@ -37,14 +37,10 @@ import com.android.internal.telephony.uicc.IccCardStatus;
  */
 public class LgeLteRIL extends RIL implements CommandsInterface {
     static final String LOG_TAG = "LgeLteRIL";
-    private Message mPendingGetSimStatus;
-
-    private boolean isGSM = false;
 
     public LgeLteRIL(Context context, int preferredNetworkType,
             int cdmaSubscription, Integer instanceId) {
         this(context, preferredNetworkType, cdmaSubscription);
-        mQANElements = 5;
     }
 
     public LgeLteRIL(Context context, int networkMode, int cdmaSubscription) {
@@ -81,14 +77,17 @@ public class LgeLteRIL extends RIL implements CommandsInterface {
             appStatus.pin1_replaced  = p.readInt();
             appStatus.pin1           = appStatus.PinStateFromRILInt(p.readInt());
             appStatus.pin2           = appStatus.PinStateFromRILInt(p.readInt());
-            int remaining_count_pin1 = p.readInt();
-            int remaining_count_puk1 = p.readInt();
-            int remaining_count_pin2 = p.readInt();
-            int remaining_count_puk2 = p.readInt();
+            if (needsOldRilFeature("needPinPukReads")) {
+                int remaining_count_pin1 = p.readInt();
+                int remaining_count_puk1 = p.readInt();
+                int remaining_count_pin2 = p.readInt();
+                int remaining_count_puk2 = p.readInt();
+            }
             cardStatus.mApplications[i] = appStatus;
         }
-        // For Sprint GSM(LTE) only SIM
-        if (numApplications == 1 && !isGSM && appStatus != null && appStatus.app_type == appStatus.AppTypeFromRILInt(2)) {
+
+        if (needsOldRilFeature("sprintSimHack") && numApplications == 1 && appStatus != null
+                && appStatus.app_type == appStatus.AppTypeFromRILInt(2)) {
             cardStatus.mApplications = new IccCardApplicationStatus[numApplications + 2];
             cardStatus.mGsmUmtsSubscriptionAppIndex = 0;
             cardStatus.mApplications[cardStatus.mGsmUmtsSubscriptionAppIndex] = appStatus;
@@ -115,70 +114,7 @@ public class LgeLteRIL extends RIL implements CommandsInterface {
             appStatus3.pin2           = appStatus.pin2;
             cardStatus.mApplications[cardStatus.mImsSubscriptionAppIndex] = appStatus3;
         }
+
         return cardStatus;
-    }
-
-    @Override
-    public void setPhoneType(int phoneType){
-        super.setPhoneType(phoneType);
-        isGSM = (phoneType != RILConstants.CDMA_PHONE);
-    }
-
-    @Override
-    protected void
-    processUnsolicited (Parcel p) {
-        if(mRilVersion >= 10) {
-            super.processUnsolicited(p);
-            return;
-        }
-
-        Object ret;
-        int dataPosition = p.dataPosition(); // save off position within the Parcel
-        int response = p.readInt();
-
-        switch(response) {
-            case RIL_UNSOL_RIL_CONNECTED: ret = responseInts(p); break;
-            default:
-                // Rewind the Parcel
-                p.setDataPosition(dataPosition);
-                // Forward responses that we are not overriding to the super class
-                super.processUnsolicited(p);
-                return;
-        }
-        switch(response) {
-            case RIL_UNSOL_RIL_CONNECTED: {
-                if (RILJ_LOGD) unsljLogRet(response, ret);
-
-                // Initial conditions
-                if (SystemProperties.get("ril.socket.reset").equals("1")) {
-                    setRadioPower(false, null);
-                }
-                // Trigger socket reset if RIL connect is called again
-                SystemProperties.set("ril.socket.reset", "1");
-                setPreferredNetworkType(mPreferredNetworkType, null);
-                setCdmaSubscriptionSource(mCdmaSubscription, null);
-                setCellInfoListRate(Integer.MAX_VALUE, null);
-                notifyRegistrantsRilConnectionChanged(((int[])ret)[0]);
-                break;
-            }
-        }
-    }
-
-    // This call causes ril to crash the socket on ril versions previous to 10, stopping further communication
-    @Override
-    public void
-    getHardwareConfig (Message result) {
-        if(mRilVersion >= 10) {
-            super.getHardwareConfig(result);
-            return;
-        }
-
-        if (result != null) {
-            riljLog("Ignoring call to 'getHardwareConfig' for ril version < 10");
-            CommandException ex = new CommandException(
-                CommandException.Error.REQUEST_NOT_SUPPORTED);
-            AsyncResult.forMessage(result, null, ex);
-            result.sendToTarget();
-        }
     }
 }
