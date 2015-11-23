@@ -86,7 +86,7 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    bdAddrLoader
+    hwaddrs
 
 # Camera
 PRODUCT_PACKAGES += \

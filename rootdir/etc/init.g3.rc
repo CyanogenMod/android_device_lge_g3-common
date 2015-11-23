@@ -332,6 +332,17 @@ service baseband-sh /system/bin/sh /init.baseband.sh
     oneshot
     disabled
 
+service hwaddrs /system/bin/hwaddrs
+    class core
+    user root
+    group system
+    oneshot
+
+# Running hwaddrs under init is enforcing 0600, we need more
+on property:init.svc.hwaddrs=stopped
+    chmod 644 /data/misc/wifi/config
+    chmod 644 /data/misc/bluetooth/bdaddr
+
 # --> init.target.rc <--
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
