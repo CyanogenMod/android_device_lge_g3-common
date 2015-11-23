@@ -57,8 +57,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.add_power_save=1 \
     persist.radio.apm_sim_not_pwdn=1 \
-    ro.ril.telephony.mqanelements=5 \
-    ro.telephony.ril_class=LgeLteRIL
+    ro.ril.telephony.mqanelements=5
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.data.netmgrd.qos.enable=false \
