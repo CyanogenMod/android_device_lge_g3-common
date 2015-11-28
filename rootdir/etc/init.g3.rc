@@ -12,7 +12,7 @@ on early-init
     write /sys/block/mmcblk1/bdi/read_ahead_kb 512
 
 on init
-    export LD_SHIM_LIBS /system/vendor/lib/libmmqjpeg_codec.so|libboringssl-compat.so:/system/vendor/lib/libOpenCL.so|libboringssl-compat.so:/system/lib/libril.so|liblge.so
+    export LD_SHIM_LIBS /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so:/system/vendor/lib/libOpenCL.so|libboringssl-compat.so:/system/lib/libril.so|liblge.so
 
     mkdir /persist 0771 system system
 
