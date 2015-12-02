@@ -536,6 +536,12 @@ service qcom-sh /system/bin/sh /init.qcom.sh
     user root
     oneshot
 
+service baseband-sh /system/bin/sh /init.baseband.sh
+    class late_start
+    user root
+    oneshot
+    disabled
+
 service qmuxd /system/bin/qmuxd
     class core
     user radio
@@ -701,6 +707,9 @@ on property:sys.mts.forcemts=0
 
 on property:vold.decrypt=trigger_restart_framework
     start sensors
+
+on property:gsm.version.baseband=""
+    start baseband-sh
 
 on property:service.bootanim.exit=1
     write /sys/devices/system/cpu/cpu1/online 1
