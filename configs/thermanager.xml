@@ -200,40 +200,6 @@
 		</threshold>
 	</configuration>
 
-	<!-- backlight -->
-	<configuration sensor="pm8941_tz">
-		<threshold>
-			<mitigation name="backlight" level="off" />
-		</threshold>
-		<threshold trigger="61000" clear="60000">
-			<mitigation name="backlight" level="1" />
-		</threshold>
-		<threshold trigger="62000" clear="60500">
-			<mitigation name="backlight" level="2" />
-		</threshold>
-		<threshold trigger="62500" clear="61500">
-			<mitigation name="backlight" level="3" />
-		</threshold>
-		<threshold trigger="63000" clear="62000">
-			<mitigation name="backlight" level="4" />
-		</threshold>
-		<threshold trigger="63500" clear="62500">
-			<mitigation name="backlight" level="5" />
-		</threshold>
-		<threshold trigger="64000" clear="63000">
-			<mitigation name="backlight" level="6" />
-		</threshold>
-		<threshold trigger="64500" clear="63500">
-			<mitigation name="backlight" level="7" />
-		</threshold>
-		<threshold trigger="65000" clear="64000">
-			<mitigation name="backlight" level="8" />
-		</threshold>
-		<threshold trigger="66000" clear="64500">
-			<mitigation name="backlight" level="9" />
-		</threshold>
-	</configuration>
-
 	<!-- CPU -->
 	<configuration sensor="pm8941_tz">
 		<threshold>
