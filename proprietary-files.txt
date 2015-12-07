@@ -127,7 +127,10 @@ lib/libdrmtime.so
 lib/libQSEEComAPI.so
 lib/librpmb.so
 lib/libssd.so
+vendor/lib/libDivxDrm.so
+vendor/lib/libSHIMDivxDrm.so
 vendor/lib/libdrmdecrypt.so
+vendor/lib/libmmosal.so
 vendor/lib/liboemcrypto.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/libwvm.so
