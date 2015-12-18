@@ -44,6 +44,9 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000
+ifeq ($(filter d852, $(TARGET_DEVICE)),)
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+endif
 TARGET_KERNEL_SOURCE := kernel/lge/g3
 
 # Audio
