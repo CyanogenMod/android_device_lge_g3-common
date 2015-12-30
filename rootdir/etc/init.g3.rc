@@ -70,6 +70,8 @@ on post-fs-data
     mkdir /tombstones/dsps 0771 system system
     mkdir /data/logger 0775 system system
 
+    mkdir /data/misc/camera 0770 camera camera
+
     mkdir /persist-lg/multimedia 0770 media divxdrm
     chown media divxdrm /persist-lg/multimedia
     chmod 0770 /persist-lg/multimedia
