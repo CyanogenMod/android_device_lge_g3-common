@@ -19,20 +19,17 @@ etc/acdbdata/Speaker_cal.acdb
 
 # Camera
 bin/mm-qcamera-daemon
-lib/hw/camera.msm8974.so:lib/hw/camera.vendor.msm8974.so
-lib/libAlAisLib.so
-lib/libAlAisWrap.so
-lib/libAlAisTune.so
+lib/hw/camera.vendor.msm8974.so
+lib/libalmalib.so
 lib/libalmcascore.so
 lib/libalmcaswrap.so
+lib/libarcsoft_beauty_shot.so
 lib/libHDR.so
 lib/libmmcamera_interface.so
 lib/libmmjpeg_interface.so
 lib/libmm-qcamera.so
 lib/libmorpho_image_stab31.so
-lib/libmorpho_memory_allocator.so
 lib/libmorpho_noise_reduction.so
-lib/libmorpho_panorama_gp.so
 lib/libmorpho_video_denoiser.so
 lib/libqomx_core.so
 vendor/lib/libactuator_dw9714.so
@@ -60,7 +57,6 @@ vendor/lib/libmmcamera_imx208.so
 vendor/lib/libmmcamera_sonyimx135_eeprom.so
 vendor/lib/libmmcamera_tintless_algo.so
 vendor/lib/libmmcamera_tintless_bg_pca_algo.so
-vendor/lib/libmmcamera_tuning.so
 vendor/lib/libmmcamera_ubifocus_lib.so
 vendor/lib/libmmipl.so
 vendor/lib/libmmjpeg.so
@@ -107,31 +103,31 @@ etc/firmware/cpp_firmware_v1_1_1.fw
 etc/firmware/cpp_firmware_v1_1_6.fw
 etc/firmware/cpp_firmware_v1_2_0.fw
 etc/firmware/cpp_firmware_v1_2_1.fw
-media/bu24205_LGIT_rev16_1_2030_data1.bin:etc/firmware/bu24205_LGIT_rev16_1_2030_data1.bin
-media/bu24205_LGIT_rev16_1_2030_data2.bin:etc/firmware/bu24205_LGIT_rev16_1_2030_data2.bin
-media/bu24205_LGIT_rev16_1_2030_data3.bin:etc/firmware/bu24205_LGIT_rev16_1_2030_data3.bin
-media/bu24205_LGIT_rev7_1_data1.bin:etc/firmware/bu24205_LGIT_rev7_1_data1.bin
-media/bu24205_LGIT_rev7_1_data2.bin:etc/firmware/bu24205_LGIT_rev7_1_data2.bin
-media/bu24205_LGIT_rev7_1_data3.bin:etc/firmware/bu24205_LGIT_rev7_1_data3.bin
-media/bu24205_LGIT_rev9_5M.bin:etc/firmware/bu24205_LGIT_rev9_5M.bin
-media/DLdata_rev28B_data1.ecl:etc/firmware/DLdata_rev28B_data1.ecl
-media/DLdata_rev28B_data2.ecl:etc/firmware/DLdata_rev28B_data2.ecl
-media/DLdata_rev28B_data3.ecl:etc/firmware/DLdata_rev28B_data3.ecl
+etc/firmware/bu24205_LGIT_rev16_1_2030_data1.bin
+etc/firmware/bu24205_LGIT_rev16_1_2030_data2.bin
+etc/firmware/bu24205_LGIT_rev16_1_2030_data3.bin
+etc/firmware/bu24205_LGIT_rev7_1_data1.bin
+etc/firmware/bu24205_LGIT_rev7_1_data2.bin
+etc/firmware/bu24205_LGIT_rev7_1_data3.bin
+etc/firmware/DLdata_rev28B_data1.ecl
+etc/firmware/DLdata_rev28B_data2.ecl
+etc/firmware/DLdata_rev28B_data3.ecl
 
 # DRM
 bin/qseecomd
 lib/drm/libdrmwvmplugin.so
-lib/libdrmdiag.so
-lib/libdrmfs.so
-lib/libdrmtime.so
-lib/libQSEEComAPI.so
-lib/librpmb.so
-lib/libssd.so
 vendor/lib/libDivxDrm.so
+vendor/lib/libHevcSwDecoder.so
+vendor/lib/libQSEEComAPI.so
 vendor/lib/libSHIMDivxDrm.so
 vendor/lib/libdrmdecrypt.so
+vendor/lib/libdrmdiag.so
+vendor/lib/libdrmfs.so
+vendor/lib/libdrmtime.so
 vendor/lib/libmmosal.so
 vendor/lib/liboemcrypto.so
+vendor/lib/librpmb.so
+vendor/lib/libssd.so
 vendor/lib/libwvdrm_L1.so
 vendor/lib/libwvm.so
 vendor/lib/libWVphoneAPI.so
@@ -142,7 +138,6 @@ vendor/lib/mediadrm/libwvdrmengine.so
 # GPS
 etc/izat.conf
 etc/permissions/com.qualcomm.location.xml
-etc/quipc.conf
 etc/sap.conf
 etc/xtwifi.conf
 
@@ -185,6 +180,9 @@ bin/irsc_util
 bin/radish
 etc/permissions/qcnvitems.xml
 etc/permissions/qcrilhook.xml
+etc/data/dsi_config.xml
+etc/data/netmgr_config.xml
+etc/data/qmi_config.xml
 -framework/qcnvitems.jar
 -framework/qcrilhook.jar
 
@@ -193,7 +191,6 @@ lib/libcir_driver.so
 lib/hw/consumerir.msm8974.so
 
 # Thermal
-bin/thermal-engine
 vendor/lib/libthermalclient.so
 vendor/lib/libthermalioctl.so
 
