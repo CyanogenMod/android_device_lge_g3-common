@@ -113,6 +113,8 @@ on early-boot
     write /sys/module/lowmemorykiller/parameters/lmk_fast_run 0
 
 on boot
+    mkdir /dev/socket/netmgr 0750 radio radio
+
     # BCM
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
