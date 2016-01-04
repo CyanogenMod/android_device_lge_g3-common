@@ -197,11 +197,8 @@ PRODUCT_PACKAGES += \
     libstlport
 
 # Thermal
-PRODUCT_PACKAGES += \
-    thermanager
-
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermanager.xml:system/etc/thermanager.xml
+    $(LOCAL_PATH)/configs/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf
 
 # Wifi
 PRODUCT_PACKAGES += \
