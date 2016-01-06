@@ -781,6 +781,5 @@ on property:service.bootanim.exit=1
 
     start mpdecision
 
-on property:init.svc.bootanim=running
     # Disable LG screen sharpening
     write /sys/devices/virtual/graphics/fb0/sharpening 0
