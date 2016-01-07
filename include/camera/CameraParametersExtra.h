@@ -29,7 +29,10 @@ const char CameraParameters::KEY_BURST_SHOT[] = "burst-shot"; \
 const char CameraParameters::KEY_BURST_SHOT_SUPPORTED[] = "burst-shot-supported"; \
 const char CameraParameters::KEY_FOCUS_MODE_OBJECT_TRACKING[] = "object-tracking"; \
 const char CameraParameters::KEY_FOCUS_MODE_OBJECT_TRACKING_SUPPORTED[] = "object-tracking-supported"; \
+const char CameraParameters::KEY_ISO_MODE[] = "iso"; \
 const char CameraParameters::KEY_LGE_CAMERA[] = "lge-camera"; \
+const char CameraParameters::KEY_LGE_ISO_MODE[] = "lg-iso"; \
+const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values"; \
 const char CameraParameters::KEY_VIDEO_WDR[] = "video-wdr"; \
 const char CameraParameters::KEY_VIDEO_WDR_SUPPORTED[] = "video-wdr-supported"; \
 const char CameraParameters::VIDEO_WDR_OFF[] = "video-wdr"; \
@@ -52,7 +55,10 @@ const char CameraParameters::OBJECT_TRACKING_OFF[] = "object-tracking"; \
     static const char KEY_BURST_SHOT_SUPPORTED[]; \
     static const char KEY_FOCUS_MODE_OBJECT_TRACKING[]; \
     static const char KEY_FOCUS_MODE_OBJECT_TRACKING_SUPPORTED[]; \
+    static const char KEY_ISO_MODE[]; \
     static const char KEY_LGE_CAMERA[]; \
+    static const char KEY_LGE_ISO_MODE[]; \
+    static const char KEY_SUPPORTED_ISO_MODES[]; \
     static const char KEY_VIDEO_WDR[]; \
     static const char KEY_VIDEO_WDR_SUPPORTED[]; \
     static const char VIDEO_WDR_OFF[]; \

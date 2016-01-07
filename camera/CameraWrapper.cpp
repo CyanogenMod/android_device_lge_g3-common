@@ -122,9 +122,12 @@ static bool is4k(android::CameraParameters &params) {
     return video_width*video_height > 1920*1080;
 }
 
+const static char * iso_values[] = {"auto,ISO50,ISO100,ISO150,ISO200,ISO250,ISO300,ISO350,ISO400,ISO450,ISO500,ISO600,ISO700,ISO800,ISO1000,ISO1500,ISO2000,ISO2700,auto","auto"};
+
 static char *camera_fixup_getparams(int id, const char *settings)
 {
     bool videoMode = false;
+    const char* isoMode;
     char *manipBuf;
 
     android::CameraParameters params;
@@ -142,6 +145,52 @@ static char *camera_fixup_getparams(int id, const char *settings)
 
     if (params.get(android::CameraParameters::KEY_RECORDING_HINT)) {
         videoMode = (!strcmp(params.get(android::CameraParameters::KEY_RECORDING_HINT), "true"));
+    }
+
+    params.set(android::CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values[id]);
+
+    /* lge-iso to iso */
+    if(params.get(android::CameraParameters::KEY_LGE_ISO_MODE)) {
+        isoMode = params.get(android::CameraParameters::KEY_LGE_ISO_MODE);
+        ALOGV("%s: ISO mode: %s", __FUNCTION__, isoMode);
+
+        if(strcmp(isoMode, "auto") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "auto");
+        } else if(strcmp(isoMode, "50") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO50");
+        } else if(strcmp(isoMode, "100") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO100");
+        } else if(strcmp(isoMode, "150") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO150");
+        } else if(strcmp(isoMode, "200") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO200");
+        } else if(strcmp(isoMode, "250") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO250");
+        } else if(strcmp(isoMode, "300") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO300");
+        } else if(strcmp(isoMode, "350") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO350");
+        } else if(strcmp(isoMode, "400") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO400");
+        } else if(strcmp(isoMode, "450") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO450");
+        } else if(strcmp(isoMode, "500") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO500");
+        } else if(strcmp(isoMode, "600") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO600");
+        } else if(strcmp(isoMode, "700") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO700");
+        } else if(strcmp(isoMode, "800") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO800");
+        } else if(strcmp(isoMode, "1000") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO1000");
+        } else if(strcmp(isoMode, "1500") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO1500");
+        } else if(strcmp(isoMode, "2000") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO2000");
+        } else if(strcmp(isoMode, "2700") == 0) {
+            params.set(android::CameraParameters::KEY_ISO_MODE, "ISO2700");
+        }
     }
 
     /* Set supported scene modes */
@@ -180,6 +229,7 @@ static char *camera_fixup_getparams(int id, const char *settings)
 static char *camera_fixup_setparams(int id, const char *settings)
 {
     bool videoMode = false;
+    const char* isoMode;
 
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
@@ -199,6 +249,52 @@ static char *camera_fixup_setparams(int id, const char *settings)
         params.set("hdr-mode", "1");
     } else {
         params.set("hdr-mode", "0");
+    }
+
+    /* iso to lge-iso */
+    if(params.get(android::CameraParameters::KEY_ISO_MODE)) {
+        isoMode = params.get(android::CameraParameters::KEY_ISO_MODE);
+        ALOGV("%s: ISO mode: %s", __FUNCTION__, isoMode);
+
+        params.set(android::CameraParameters::KEY_ISO_MODE, "auto");
+
+        if(strcmp(isoMode, "auto") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "auto");
+        } else if(strcmp(isoMode, "ISO50") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "50");
+        } else if(strcmp(isoMode, "ISO100") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "100");
+        } else if(strcmp(isoMode, "ISO150") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "150");
+        } else if(strcmp(isoMode, "ISO200") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "200");
+        } else if(strcmp(isoMode, "ISO250") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "250");
+        } else if(strcmp(isoMode, "ISO300") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "300");
+        } else if(strcmp(isoMode, "ISO350") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "350");
+        } else if(strcmp(isoMode, "ISO400") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "400");
+        } else if(strcmp(isoMode, "ISO450") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "450");
+        } else if(strcmp(isoMode, "ISO500") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "500");
+        } else if(strcmp(isoMode, "ISO600") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "600");
+        } else if(strcmp(isoMode, "ISO700") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "700");
+        } else if(strcmp(isoMode, "ISO800") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "800");
+        } else if(strcmp(isoMode, "ISO1000") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "1000");
+        } else if(strcmp(isoMode, "ISO1500") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "1500");
+        } else if(strcmp(isoMode, "ISO2000") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "2000");
+        } else if(strcmp(isoMode, "ISO2700") == 0) {
+            params.set(android::CameraParameters::KEY_LGE_ISO_MODE, "2700");
+        }
     }
 
     if (!strcmp(params.get("zsl"), "on")) {
