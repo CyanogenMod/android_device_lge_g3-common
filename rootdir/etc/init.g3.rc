@@ -1,5 +1,4 @@
 import init.g3.usb.rc
-import init.galbi.bt_vendor.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
@@ -7,19 +6,12 @@ on early-init
     mkdir /firmware 0771 system system
     symlink /data/tombstones /tombstones
 
-    write /sys/block/mmcblk0/queue/scheduler noop
-    write /sys/block/mmcblk0/bdi/read_ahead_kb 512
-    write /sys/block/mmcblk1/bdi/read_ahead_kb 512
-
 on init
     export LD_SHIM_LIBS /system/lib/libril.so|liblge.so
 
     mkdir /persist 0771 system system
-
+    mkdir /persist-lg 0771 system system
     mkdir /sns 0755 system system
-    mkdir /sns/cal/ 0644 system system
-    mkdir /sns/touch/ 0775 system system
-    mkdir /persist-lg 0755 system system
     mkdir /mpt 0755 system system
 
     # Support legacy paths
@@ -37,30 +29,10 @@ on fs
     restorecon_recursive /persist
     restorecon_recursive /persist-lg
 
-    write /sys/kernel/boot_adsp/boot 1
+    mkdir /persist/data 0700  system system
 
+    # Executing tune2fs to reserve some region in /data.(40MB)
     exec /system/bin/tune2fs -u system -r 10240 /dev/block/platform/msm_sdcc.1/by-name/userdata
-
-    mkdir /data/nfc 770 nfc nfc
-    mkdir /data/nfc/param 770 nfc nfc
-
-    chmod 0660 /dev/ramdump_pronto
-    chown system system /dev/ramdump_pronto
-
-    chmod 0660 /sys/bus/i2c/devices/0-0036/lm3697_rt_mode
-    chown system system /sys/bus/i2c/devices/0-0036/lm3697_rt_mode
-
-on post-fs
-    chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
-    chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
-    chown system system /sys/devices/virtual/input/lge_touch/incoming_call
-    chown system system /sys/devices/virtual/input/lge_touch/ime_status
-    chown system system /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
-    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
-    chown system system /sys/devices/virtual/input/lge_touch/ts_noise
-    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise
-    chmod 664 /sys/devices/virtual/input/lge_touch/quick_cover_status
-    chown system system /sys/devices/virtual/input/lge_touch/quick_cover_status
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
@@ -68,32 +40,25 @@ on post-fs-data
     mkdir /tombstones/lpass 0771 system system
     mkdir /tombstones/wcnss 0771 system system
     mkdir /tombstones/dsps 0771 system system
-    mkdir /data/logger 0775 system system
 
     mkdir /data/misc/camera 0770 camera camera
 
+    # DivX DRM
     mkdir /persist-lg/multimedia 0770 media divxdrm
-    chown media divxdrm /persist-lg/multimedia
-    chmod 0770 /persist-lg/multimedia
-
     mkdir /persist-lg/multimedia/nx 0770 media divxdrm
-    chown media divxdrm /persist-lg/multimedia/nx
-    chmod 0770 /persist-lg/multimedia/nx
-
     mkdir /persist-lg/multimedia/uma 0770 media divxdrm
-    chown media divxdrm /persist-lg/multimedia/uma
-    chmod 0770 /persist-lg/multimedia/uma
-
     mkdir /persist-lg/multimedia/scnt 0770 media divxdrm
-    chown media divxdrm /persist-lg/multimedia/scnt
-    chmod 0770 /persist-lg/multimedia/scnt
-
     mkdir /persist-lg/multimedia/scnt/sdadf 0770 media divxdrm
-    chown media divxdrm /persist-lg/multimedia/scnt/sdadf
-    chmod 0770 /persist-lg/multimedia/scnt/sdadf
 
     chown system system /mpt
     chmod 0775 /mpt
+
+    # NFC local data and nfcee xml storage
+    mkdir /data/nfc 0770 nfc nfc
+    mkdir /data/nfc/param 0770 nfc nfc
+
+    # make directory for sns.reg used by sensordaemon
+    mkdir /sns/cal/ 0644 system system
 
     # Location services
     mkdir /data/misc/location 0770 gps gps
@@ -105,53 +70,36 @@ on post-fs-data
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
-    exec /system/bin/sh /init.qcom.early_boot.sh ${ro.board.platform}
-    exec /system/bin/sh /system/etc/init.qcom.wifi.sh ${ro.board.platform} ${ro.serialno}
-    exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
 
-    # disable lmk_fast_run
-    write /sys/module/lowmemorykiller/parameters/lmk_fast_run 0
+    write /sys/kernel/boot_adsp/boot 1
 
 on boot
     mkdir /dev/socket/netmgr 0750 radio radio
 
     # BCM
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwake
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/proto
-    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
-    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_lpm
+    chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
+    chown system system /sys/module/sco/parameters/disable_esco
+    chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
+    chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
+    chmod 0660 /sys/module/radio_iris_transport/parameters/fmsmd_set
     chmod 0660 /sys/class/rfkill/rfkill0/state
-    chmod 0660 /proc/bluetooth/sleep/btwake
     chmod 0660 /proc/bluetooth/sleep/proto
-    chmod 0644 /proc/bluetooth/sleep/btwrite
-    chmod 0644 /proc/bluetooth/sleep/lpm
-    chown bluetooth net_bt_stack /dev/ttyHS99
+    chown bluetooth bluetooth /dev/ttyHS0
     chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
     chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
-    chmod 0660 /dev/ttyHS99
-    setprop bluetooth.chip.vendor brcm
-    setprop ro.fm.module BCM
-
-    # For WiFi
-    chown wifi wifi /dev/rfkill
-    chmod 0600 /dev/rfkill
+    chmod 0660 /dev/ttyHS0
+    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 
     # For NFC
     symlink /dev/pn547 /dev/pn544
-
-    # Vibrator
-    chown system system /sys/class/timed_output/vibrator/enable
-    chmod 0660 /sys/class/timed_output/vibrator
-
-    chown root system /sys/devices/platform/tspdrv/nforce_timed
-    chmod 0664 /sys/devices/platform/tspdrv/nforce_timed
-    restorecon /sys/devices/platform/tspdrv/nforce_timed
-
-    # Polynomial Color Correction
-    chown system system /sys/devices/virtual/graphics/fb0/rgb
-    chmod 0660 /sys/devices/virtual/graphics/fb0/rgb
 
     # Flashlight
     chown system system /sys/class/leds/torch-light/brightness
@@ -167,49 +115,27 @@ on boot
     chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/setting
     chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/setting
 
-    # Charger timer
+    # charger timer
     chown system system /sys/class/power_supply/ac/charger_timer
 
-    # Dynamic LCD refresh rate PM
-    chown system system /sys/class/devfreq/g3-display.0/polling_interval
-    chmod 664 /sys/class/devfreq/g3-display.0/polling_interval
-    chown system system /sys/class/devfreq/g3-display.0/cur_freq
-    chmod 664 /sys/class/devfreq/g3-display.0/cur_freq
-    chown system system /sys/class/graphics/fb0/dynamic_fps
-    chmod 664 /sys/class/graphics/fb0/dynamic_fps
+    # charging_enable
+    chown system system /sys/class/power_supply/battery/charging_enabled
 
-    # MDP idle notifier
-    chown system graphics /sys/class/graphics/fb0/idle_time
-    chmod 0664 /sys/class/graphics/fb0/idle_time
-
-    # Node for power save mode
-    chown system system /sys/class/graphics/fb0/mdp/vfps
-    chmod 644 /sys/class/graphics/fb0/mdp/vfps
-    chown system system /sys/class/graphics/fb0/mdp/vfps_trigger
-    chmod 644 /sys/class/graphics/fb0/mdp/vfps_trigger
-    chown system system /sys/class/graphics/fb0/mdp/vfps_boost
-    chmod 644 /sys/class/graphics/fb0/mdp/vfps_trigger
-    chown system system /sys/class/graphics/fb0/mdp/vfps_sts
-    chmod 644 /sys/class/graphics/fb0/mdp/vfps_trigger
+    # safety timer
+    chown system system /sys/class/power_supply/battery/safety_timer_enabled
 
     write /sys/class/leds/lcd-backlight/brightness 177
 
-    # Bluetooth tethering
-    setprop bluetooth.pan true
+    # Assign TCP buffer thresholds to be ceiling value of technology maximums
+    # Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max 2097152
+    write /proc/sys/net/core/wmem_max 2097152
 
-    # MPDN
-    setprop ro.support_mpdn true
-
-    write /proc/sys/net/core/rmem_max  3461120
-    write /proc/sys/net/core/wmem_max  3461120
-
-    # SCMS-T property set during phone Booting
-    setprop persist.service.bdroid.a2dp_con 0
-    setprop persist.service.bdroid.scms_t 0
-
-    # Touch_Knock_on
+    # touch_driver
     chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
     chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
+    chown system radio /sys/devices/virtual/input/lge_touch/lpwg_notify
+    chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_notify
     chown system system /sys/devices/virtual/input/lge_touch/tap_to_wake
     chmod 664 /sys/devices/virtual/input/lge_touch/tap_to_wake
     chown system system /sys/devices/virtual/input/lge_touch/lpwg_test_info
@@ -218,6 +144,46 @@ on boot
     chmod 644 /sys/devices/virtual/input/lge_touch/lpwg_test_ctrl
     chown system system /sys/devices/virtual/input/lge_touch/touch_wake_up_test
     chmod 664 /sys/devices/virtual/input/lge_touch/touch_wake_up_test
+    chown system lgkeyguard /sys/devices/virtual/input/lge_touch/keyguard
+    chmod 664 /sys/devices/virtual/input/lge_touch/keyguard
+    chown system system /sys/devices/virtual/input/lge_touch/incoming_call
+    chown system system /sys/devices/virtual/input/lge_touch/ime_status
+    chown system system /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
+    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise_log_enable
+    chown system system /sys/devices/virtual/input/lge_touch/ts_noise
+    chmod 664 /sys/devices/virtual/input/lge_touch/ts_noise
+
+    # setup permissions for fb0 related nodes
+    chown system graphics /sys/class/graphics/fb0/idle_time
+    chmod 664 /sys/class/graphics/fb0/idle_time
+    chown system system /sys/class/graphics/fb0/dynamic_fps
+    chmod 664 /sys/class/graphics/fb0/dynamic_fps
+    chown system system /sys/class/devfreq/g3-display.0/polling_interval
+    chmod 664 /sys/class/devfreq/g3-display.0/polling_interval
+    chown system system /sys/class/devfreq/g3-display.0/cur_freq
+    chmod 664 /sys/class/devfreq/g3-display.0/cur_freq
+    chown system system /sys/class/graphics/fb0/mdp/vfps
+    chmod 644 /sys/class/graphics/fb0/mdp/vfps
+    chown system system /sys/class/graphics/fb0/mdp/vfps_fcnt
+    chmod 644 /sys/class/graphics/fb0/mdp/vfps_fcnt
+    chown system system /sys/class/graphics/fb0/mdp/vfps_ratio
+    chmod 644 /sys/class/graphics/fb0/mdp/vfps_ratio
+
+    # create symlink for fb1 as HDMI
+    symlink /dev/graphics/fb1 /dev/graphics/hdmi
+
+    # setup permissions for fb1 related nodes
+    chown system system /sys/class/graphics/fb1/hdcp/tp
+    chmod 664 /sys/class/graphics/fb1/hdcp/tp
+    chown system graphics /sys/class/graphics/fb1/hpd
+    chmod 664 /sys/class/graphics/fb1/hpd
+    chown system graphics /sys/class/graphics/fb1/vendor_name
+    chmod 664 /sys/class/graphics/fb1/vendor_name
+    chown system graphics /sys/class/graphics/fb1/product_description
+    chmod 664 /sys/class/graphics/fb1/product_description
+
+    chmod 0660 /dev/ttyHS2
+    chown bluetooth bluetooth /dev/ttyHS2
 
     # Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -229,6 +195,9 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
+    # Create netmgr daemon socket area
+    mkdir /dev/socket/netmgr 0750 radio radio
+
     setprop wifi.interface wlan0
 
     setprop ro.telephony.call_ring.multiple false
@@ -238,8 +207,9 @@ on boot
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
-    # For bridgemgr daemon to inform the USB driver of the correct transport
-    chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
+    # For setting tcp delayed ack
+    chown system system /sys/kernel/ipv4/tcp_delack_seg
+    chown system system /sys/kernel/ipv4/tcp_use_userconfig
 
     # To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -271,16 +241,14 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # setup permissions for IrRC  UART
-    chown system system /dev/ttyHSL1
-    chmod 660 /dev/ttyHSL1
+    write /sys/module/lowmemorykiller/parameters/lmk_fast_run 0
 
-    # enable exfat feature
-    insmod /system/lib/modules/texfat.ko
-
-    # Adaptive LMK
-    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
-    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+    chown system system /sys/class/leds/red/pattern_id
+    chmod 0664 /sys/class/leds/red/pattern_id
+    chown system system /sys/class/leds/red/timed
+    chmod 0664 /sys/class/leds/red/timed
+    chown system system /sys/class/leds/red/time_on_off
+    chmod 0664 /sys/class/leds/red/time_on_off
 
 on post-fs-data
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
@@ -290,6 +258,7 @@ on post-fs-data
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
+    mkdir /data/misc/fm 0770 system system
 
     # CONFIG_LGE_WLAN_PATCH
     # to observe dnsmasq.leases file for dhcp information of soft ap.
@@ -311,9 +280,6 @@ on post-fs-data
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
 
-    chmod 0660 /dev/lge_dm_tty0
-    chown system system /dev/lge_dm_tty0
-
     chmod 0660 /dev/ramdump_adsp
     chown system system /dev/ramdump_adsp
 
@@ -322,17 +288,15 @@ on post-fs-data
 
     chmod 0660 /dev/ramdump_modem
     chown system system /dev/ramdump_modem
-    
+
     chmod 0660 /dev/ramdump_smem-modem
     chown system system /dev/ramdump_smem-modem
-    
+
     chmod 0660 /dev/ramdump_smem-smd
     chown system system /dev/ramdump_smem-smd
-    
+
     chmod 0660 /dev/ramdump_venus
     chown system system /dev/ramdump_venus
-
-    mkdir /data/system 0775 system system
 
     # Create directory for hostapd
     mkdir /data/hostapd 0770 system wifi
@@ -351,91 +315,69 @@ on post-fs-data
 # Services start here
 #
 
+service charger /sbin/healthd -c
+    class charger
+    critical
+    seclabel u:r:healthd:s0
+
+service baseband-sh /system/bin/sh /init.baseband.sh
+    class late_start
+    user root
+    oneshot
+    disabled
+
+# --> init.target.rc <--
+service qcamerasvr /system/bin/mm-qcamera-daemon
+    class late_start
+    user camera
+    group camera system inet input graphics
+
+service qseecomd /system/bin/qseecomd
+    class core
+    user root
+    group root
+
+service mpdecision /system/bin/mpdecision --avg_comp
+    class main
+    user root
+    group system
+    disabled
+
+service thermal-engine /system/bin/thermal-engine
+   class main
+   user root
+   group root
+   socket thermal-send-client stream 0666 system system
+   socket thermal-recv-client stream 0660 system system
+   socket thermal-recv-passive-client stream 0666 system system
+
+service time_daemon /system/bin/time_daemon
+   class late_start
+   user root
+   group root
+
 service adsprpcd /system/bin/adsprpcd
    class main
    user media
    group media
-
-service atd /system/bin/atd /dev/ttyGS0 /dev/smd0
-   socket atd stream 0660 system inet
-   disabled
-
-service atfwd /system/bin/ATFWD-daemon
-    class late_start
-    user system
-    group system radio
 
 service audiod /system/bin/audiod
    class late_start
    user system
    group system
 
-service bridgemgrd /system/bin/bridgemgrd
-    class late_start
-    user radio
-    group radio qcom_diag
-    disabled
+# --> init.g3_core.rc <--
 
-service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin inet
-    disabled
-    oneshot
+# restart qcamerasvr when restarting mediaserver and servicemanager
+on property:init.svc.media=restarting
+    restart qcamerasvr
+on property:init.svc.servicemanager=restarting
+    restart qcamerasvr
 
-service bt-sap /system/bin/sapd 15
-    user bluetooth
-    group bluetooth net_bt_admin
+service wcnss-service /system/bin/wcnss_service
     class late_start
-    disabled
-    oneshot
-
-service bt_hsic_control /system/bin/sh /system/etc/hsic.control.bt.sh
     user root
-    disabled
-
-service charger /sbin/healthd -c
-    class charger
-    critical
-    seclabel u:r:healthd:s0
-
-service cnd /system/bin/cnd
-    class late_start
-    socket cnd stream 660 root inet
-
-service dhcpcd_bnep0 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep1 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep2 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep3 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bnep4 /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
-service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
-    class late_start
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -ABKLG
-    class late_start
-    disabled
-    oneshot
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABDKL
-    class late_start
-    disabled
+    group system wifi
     oneshot
 
 service immvibed /system/bin/immvibed
@@ -444,58 +386,22 @@ service immvibed /system/bin/immvibed
     group shell system
     oneshot
 
-service iprenew_bt-pan /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
-
-service iprenew_wlan0 /system/bin/dhcpcd -n
-    class late_start
-    disabled
-    oneshot
+# --> init.qcom.rc <--
 
 service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
     oneshot
 
-service location_mq /system/bin/location-mq
-    class late_start
-    user gps
-    group gps
-    disabled
-
-service lowi-server /system/bin/lowi-server
-    class late_start
-    user gps
-    group gps net_admin wifi inet
-    disabled
-
-service mpdecision /system/bin/mpdecision --avg_comp
-    class late_start
-    user root
-    group system
-    disabled
-
-service mtsd /system/bin/mtsd
-    class late_start
-    oneshot
-    socket mtsd.port stream 660 system system
-
 service netmgrd /system/bin/netmgrd
-    class core
+    class main
 
 service p2p_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
     -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
     -I/system/etc/wifi/p2p_supplicant_overlay.conf \
-    -puse_p2p_group_interface=1 -e/data/misc/wifi/entropy.bin \
+    -puse_p2p_group_interface=1use_multi_chan_concurrent=1 -e/data/misc/wifi/entropy.bin \
     -g@android:wpa_wlan0
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
@@ -519,54 +425,24 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
-    class late_start
-    user system
-    group system inet
-    disabled
+# --> init.msm8974_core.rc <--
 
-service qcamerasvr /system/bin/mm-qcamera-daemon
-    class late_start
-    user camera
-    group camera system inet input graphics
-
-service qcom-sensor-sh /system/bin/sh /init.galbi.sensor.sh
-    class main
+service lge-sensor-sh /system/bin/sh /init.msm8974.sensor.sh
+    class core
     user root
     oneshot
+
+# --> init.qcom.rc <--
 
 service qcom-sh /system/bin/sh /init.qcom.sh
     class late_start
     user root
     oneshot
 
-service baseband-sh /system/bin/sh /init.baseband.sh
-    class late_start
-    user root
-    oneshot
-    disabled
-
 service qmuxd /system/bin/qmuxd
     class core
     user radio
     group radio audio bluetooth gps qcom_diag
-
-service qseecomd /system/bin/qseecomd
-    class core
-    user root
-    group root
-
-service quipc_igsn /system/bin/quipc_igsn
-    class late_start
-    user gps
-    group inet gps
-    disabled
-
-service quipc_main /system/bin/quipc_main
-    class late_start
-    user gps
-    group gps net_admin wifi inet
-    disabled
 
 service rmt_storage /system/bin/rmt_storage
     class core
@@ -574,44 +450,10 @@ service rmt_storage /system/bin/rmt_storage
     disabled
 
 service sensors /system/bin/sensors.qcom
-    class main
+    class late_start
     user root
     group root
     disabled
-
-service thermal-engine /system/bin/thermal-engine
-   class main
-   user root
-   group root
-
-service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
-
-service wcnss-service /system/bin/wcnss_service
-    class main
-    user root
-    group system wifi qcom_diag radio
-    oneshot
-
-service xtwifi_client /system/bin/xtwifi-client
-    class late_start
-    user gps
-    group net_admin wifi inet gps
-    disabled
-
-service xtwifi_inet /system/bin/xtwifi-inet-agent
-    class late_start
-    user gps
-    group inet gps
-    disabled
-
-on property:bluetooth.hsic_ctrl=load_wlan
-    start bt_hsic_control
-
-on property:bluetooth.hsic_ctrl=unbind_hsic
-    start bt_hsic_control
 
 on property:bluetooth.isEnabled=true
     write /sys/class/bluetooth/hci0/idle_timeout 7000
@@ -650,62 +492,15 @@ on charger
     write /sys/devices/system/cpu/cpu3/online 0
     start mpdecision
 
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
-
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcdc
-
-on property:persist.service.fakebatt=0
-    write /sys/class/power_supply/battery/pseudo_batt "0 1 100 40 4100000 80 1"
-
-on property:persist.service.fakebatt=1
-    write /sys/class/power_supply/battery/pseudo_batt "1 1 100 40 4100000 80 1"
-
-on property:persist.sys.ssr.restart_level=1
-    write /sys/module/subsystem_restart/parameters/restart_level 1
-    write /sys/bus/msm_subsys/devices/subsys0/restart_level system
-    write /sys/bus/msm_subsys/devices/subsys1/restart_level system
-    write /sys/bus/msm_subsys/devices/subsys2/restart_level system
-    write /sys/bus/msm_subsys/devices/subsys3/restart_level system
-
-on property:persist.sys.ssr.restart_level=3
-    write /sys/module/subsystem_restart/parameters/restart_level 3
-    write /sys/bus/msm_subsys/devices/subsys0/restart_level system
-    write /sys/bus/msm_subsys/devices/subsys1/restart_level related
-    write /sys/bus/msm_subsys/devices/subsys2/restart_level related
-    write /sys/bus/msm_subsys/devices/subsys3/restart_level related
-
-on property:persist.usb.chgdisabled=0
-    write /sys/class/power_supply/battery/charging_enabled 1
-
-on property:persist.usb.chgdisabled=1
-    write /sys/class/power_supply/battery/charging_enabled 0
-
-on property:ro.baseband="msm"
-   start atd
 
 on property:ro.boot.emmc=true
     start rmt_storage
 
 on property:ro.data.large_tcp_window_size=true
+    # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
     write /proc/sys/net/ipv4/tcp_adv_win_scale  2
-
-on property:ro.lge.zwait=true
-    chown system system /sys/class/zwait/state
-
-on property:ro.use_data_netmgrd=false
-    stop netmgrd
-
-on property:sys.lge.touchfirmware.update=1
-    write /sys/devices/virtual/input/lge_touch/firmware 1
-    setprop sys.lge.touchfirmware.update 2
-
-on property:sys.mts.forcemts=1
-    start mtsd
-
-on property:sys.mts.forcemts=0
-    stop mtsd
 
 on property:vold.decrypt=trigger_restart_framework
     start sensors
@@ -724,7 +519,7 @@ on property:service.bootanim.exit=1
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "20000 1400000:40000 1700000:20000"
     write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1190400
+    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 1497600
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/interactive/target_loads "85 1500000:90 1800000:70"
     write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 40000
@@ -765,7 +560,6 @@ on property:service.bootanim.exit=1
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq "300000"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq "300000"
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq "300000"
-    chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     chown root.system /sys/devices/system/cpu/cpu1/online
     chown root.system /sys/devices/system/cpu/cpu2/online
@@ -774,12 +568,9 @@ on property:service.bootanim.exit=1
     chmod 664 /sys/devices/system/cpu/cpu2/online
     chmod 664 /sys/devices/system/cpu/cpu3/online
 
-    write /sys/module/cpu_boost/parameters/boost_ms "20"
     write /sys/module/cpu_boost/parameters/sync_threshold "1728000"
     write /sys/module/cpu_boost/parameters/input_boost_freq "1497600"
     write /sys/module/cpu_boost/parameters/input_boost_ms "40"
-
-    write /dev/cpuctl/cpu.notify_on_migrate "1"
 
     setprop ro.qualcomm.perf.cores_online 2
 

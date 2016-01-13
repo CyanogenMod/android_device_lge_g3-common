@@ -176,8 +176,7 @@ PRODUCT_PACKAGES += \
     fstab.g3 \
     init.g3.rc \
     init.g3.usb.rc \
-    init.galbi.sensor.sh \
-    init.qcom.early_boot.sh \
+    init.msm8974.sensor.sh \
     init.qcom.sh \
     init.baseband.sh \
     ueventd.g3.rc

@@ -1,4 +1,5 @@
-# Copyright (c) 2009-2012, The Linux Foundation. All rights reserved.
+#!/system/bin/sh
+# Copyright (c) 2009-2015, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,36 +26,29 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#cockoo140127
-on boot
-    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwake
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/proto
-    chown bluetooth bluetooth /proc/bluetooth/sleep/lpm
-    chown bluetooth bluetooth /proc/bluetooth/sleep/btwrite
-    chown system system /sys/module/sco/parameters/disable_esco
-    chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
-    chmod 0660 /sys/module/bluetooth_power/parameters/power
-    chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
-    chmod 0660 /sys/class/rfkill/rfkill0/state
-    chmod 0660 /proc/bluetooth/sleep/btwake
-    chmod 0660 /proc/bluetooth/sleep/proto
-    chmod 0660 /proc/bluetooth/sleep/lpm
-    chmod 0660 /proc/bluetooth/sleep/btwrite
-    chown bluetooth net_bt_stack /dev/ttyHS99
-    chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
-    chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
-    chmod 0660 /dev/ttyHS99
-    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
-    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+#
+# Function to start sensors for DSPS enabled platforms
+#
+start_sensors()
+{
+    if [ -c /dev/msm_dsps -o -c /dev/sensors ]; then
 
-    # Feature chip vendor : qct
-    setprop bluetooth.chip.vendor qcom
+        if [ ! -s /persist/sensors/sensors_settings ]; then
+            # If the settings file is empty, enable sensors HAL
+            # Otherwise leave the file with it's current contents
+            mkdir -p /persist/sensors
+            echo 1 > /persist/sensors/sensors_settings
+        fi
 
-on property:bluetooth.sap.status=running
-    start bt-sap
+        chmod -h 775 /persist/sensors
+        chmod -h 664 /persist/sensors/sensors_settings
+        chown -h system.root /persist/sensors/sensors_settings
 
-on property:bluetooth.sap.status=stopped
-    stop bt-sap
+        mkdir -p /data/misc/sensors
+        chmod -h 775 /data/misc/sensors
+
+        start sensors
+    fi
+}
+
+start_sensors
