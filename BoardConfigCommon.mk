@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2014 The CyanogenMod Project
+# Copyright (C) 2016 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ TARGET_BOARD_PLATFORM := msm8974
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
 USE_CLANG_PLATFORM_BUILD := true
 
-# CPU
+# Architecture
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
@@ -35,6 +35,7 @@ TARGET_CPU_VARIANT := krait
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
@@ -44,10 +45,11 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x0008000 --ramdisk_offset 0x2000000
+TARGET_KERNEL_SOURCE := kernel/lge/g3
+
 ifeq ($(filter d852, $(TARGET_DEVICE)),)
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 endif
-TARGET_KERNEL_SOURCE := kernel/lge/g3
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
@@ -76,18 +78,12 @@ TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/input/lge_touch/tap_to_wake"
 TARGET_HW_DISK_ENCRYPTION := true
 
 # Display
+MAX_EGL_CACHE_KEY_SIZE := 12*1024
+MAX_EGL_CACHE_SIZE := 2048*1024
+OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 TARGET_USES_C2D_COMPOSITION := true
 TARGET_USES_ION := true
 USE_OPENGL_RENDERER := true
-
-MAX_EGL_CACHE_KEY_SIZE := 12*1024
-MAX_EGL_CACHE_SIZE := 2048*1024
-
-HAVE_ADRENO_SOURCE:= false
-OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
-
-# Fonts
-EXTENDED_FONT_FOOTPRINT := true
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -111,10 +107,7 @@ BOARD_RIL_CLASS += ../../../device/lge/g3-common/ril
 BOARD_USES_QCOM_HARDWARE := true
 
 # Recovery
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_SWIPE := true
 BOARD_SUPPRESS_EMMC_WIPE := true
-BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_USERIMAGES_USE_EXT4 := true
