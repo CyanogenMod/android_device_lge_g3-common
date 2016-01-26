@@ -360,6 +360,7 @@
         <path name="deep-buffer-playback" />
     </path>
 
+    <!-- CM: low-latency-playback -->
     <path name="low-latency-playback">
         <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia5" value="1" />
     </path>
@@ -417,6 +418,7 @@
         <ctl name="AFE_PCM_RX Audio Mixer MultiMedia2" value="1" />
     </path>
 
+    <!-- CM: compress-offload-playback -->
     <path name="compress-offload-playback">
         <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia4" value="1" />
     </path>
@@ -807,6 +809,7 @@
         <ctl name="IIR1 INP1 MUX" value="DEC2" />
     </path>
 
+    <!-- CM: playback OUT speaker -->
     <path name="speaker">
         <path name="fb-protection" />
         <ctl name="SLIM RX1 MUX" value="AIF1_PB" />
@@ -933,6 +936,7 @@
         <ctl name="ADC2 Volume" value="12" />
     </path>
 
+    <!-- CM: voice-call OUT earpiece -->
     <path name="voice-handset">
         <path name="handset" />
         <ctl name="RX1 Digital Volume" value="60" />
@@ -981,6 +985,7 @@
         <path name="handset" />
     </path>
 
+    <!-- CM: voice-call OUT speaker -->
     <path name="voice-speaker">
         <path name="speaker" />
         <ctl name="RX3 Digital Volume" value="60" />
@@ -997,6 +1002,7 @@
         <ctl name="DEC4 Volume" value="60" />
     </path>
 
+    <!-- CM: voice-call OUT headphones -->
     <path name="voice-headphones">
         <path name="headphones" />
         <ctl name="COMP1 Switch" value="0" />
@@ -1015,6 +1021,7 @@
          <path name="speaker" />
     </path>
 
+    <!-- CM: voice-call IN headset mic -->
     <path name="voice-headset-mic">
         <path name="headset-mic" />
         <ctl name="DEC5 Volume" value="60" />
@@ -1355,6 +1362,7 @@
         <ctl name="DEC6 Volume" value="69" />
     </path>
 
+    <!-- CM: voice-call IN handset mic -->
     <path name="voice-dmic-ef">
         <path name="dmic-endfire" />
         <ctl name="ADC1 Volume" value="12" />
@@ -1392,6 +1400,7 @@
         <path name="speaker-dmic-endfire" />
     </path>
 
+    <!-- CM: voice-call IN speaker mic -->
     <path name="voice-speaker-dmic-ef-nxp">
         <ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
         <ctl name="AIF1_CAP Mixer SLIM TX8" value="1" />
