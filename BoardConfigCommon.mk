@@ -53,7 +53,6 @@ endif
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 USE_CUSTOM_AUDIO_POLICY := 1
 
 # Bluetooth
