@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The CyanogenMod Project
+ * Copyright (C) 2016 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,5 +65,22 @@ public class LgeLteRIL extends RIL implements CommandsInterface {
             AsyncResult.forMessage(response, ret, null);
             response.sendToTarget();
         }
+    }
+
+    @Override
+    public void
+    setNetworkSelectionModeManual(String operatorNumeric, Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_SET_NETWORK_SELECTION_MANUAL,
+                                    response);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                    + " " + operatorNumeric);
+
+        rr.mParcel.writeInt(2);
+        rr.mParcel.writeString(operatorNumeric);
+        rr.mParcel.writeString("2"); // NOCHANGE
+
+        send(rr);
     }
 }
