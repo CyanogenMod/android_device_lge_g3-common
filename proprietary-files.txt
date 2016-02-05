@@ -5,10 +5,6 @@ vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
 
 # Audio
-vendor/lib/libacdbloader.so
-vendor/lib/libacdbrtac.so
-vendor/lib/libadiertac.so
-vendor/lib/libaudcal.so
 etc/acdbdata/Bluetooth_cal.acdb
 etc/acdbdata/General_cal.acdb
 etc/acdbdata/Global_cal.acdb
@@ -16,6 +12,10 @@ etc/acdbdata/Handset_cal.acdb
 etc/acdbdata/Hdmi_cal.acdb
 etc/acdbdata/Headset_cal.acdb
 etc/acdbdata/Speaker_cal.acdb
+vendor/lib/libacdbloader.so
+vendor/lib/libacdbrtac.so
+vendor/lib/libadiertac.so
+vendor/lib/libaudcal.so
 
 # Camera
 bin/mm-qcamera-daemon
@@ -136,9 +136,6 @@ vendor/lib/mediadrm/libwvdrmengine.so
 
 # GPS
 etc/izat.conf
-etc/permissions/com.qualcomm.location.xml
-etc/sap.conf
-etc/xtwifi.conf
 
 # Graphics
 vendor/lib/egl/eglsubAndroid.so
@@ -190,6 +187,7 @@ lib/libcir_driver.so
 lib/hw/consumerir.msm8974.so
 
 # Thermal
+bin/thermal-engine
 vendor/lib/libthermalclient.so
 vendor/lib/libthermalioctl.so
 
