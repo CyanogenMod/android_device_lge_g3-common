@@ -60,6 +60,11 @@ on post-fs-data
     # make directory for sns.reg used by sensordaemon
     mkdir /sns/cal/ 0644 system system
 
+    # Vibrator
+    chown root system /sys/devices/platform/tspdrv/nforce_timed
+    chmod 0664 /sys/devices/platform/tspdrv/nforce_timed
+    restorecon /sys/devices/platform/tspdrv/nforce_timed
+
     # Location services
     mkdir /data/misc/location 0770 gps gps
     mkdir /data/misc/location/mq 0770 gps gps
