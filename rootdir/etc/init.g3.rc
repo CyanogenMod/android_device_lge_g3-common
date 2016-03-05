@@ -349,6 +349,11 @@ service btinit-sh /system/bin/sh /init.qcom.bt.sh
     oneshot
     disabled
 
+service cal_sensors-sh /system/bin/sh /init.sensors.sh
+    class core
+    user root
+    oneshot
+
 # Running hwaddrs under init is enforcing 0600, we need more
 on property:init.svc.hwaddrs=stopped
     chmod 644 /data/misc/wifi/config

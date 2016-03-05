@@ -185,6 +185,9 @@ etc/data/qmi_config.xml
 -framework/qcnvitems.jar
 -framework/qcrilhook.jar
 
+# Sensors
+etc/sensors/sensor_def_common.conf
+
 # IR
 lib/libcir_driver.so
 lib/hw/consumerir.msm8974.so
