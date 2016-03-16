@@ -1,4 +1,4 @@
-# Compile this library only for builds with the latest modem image
+#Compile this library only for builds with the latest modem image
 
 LOCAL_PATH := $(call my-dir)
 
@@ -40,7 +40,6 @@ LOCAL_CFLAGS += \
 LOCAL_C_INCLUDES:= \
     $(TARGET_OUT_HEADERS)/gps.utils \
     $(TARGET_OUT_HEADERS)/libloc_core \
-    $(TARGET_OUT_HEADERS)/libflp \
     $(LOCAL_PATH)
 
 LOCAL_COPY_HEADERS_TO:= libloc_eng/
@@ -76,9 +75,6 @@ LOCAL_SHARED_LIBRARIES := \
     libgps.utils \
     libdl
 
-ifneq ($(filter $(TARGET_DEVICE), apq8084 msm8960), false)
-endif
-
 LOCAL_SRC_FILES += \
     loc.cpp \
     gps.c
@@ -94,8 +90,7 @@ endif
 ## Includes
 LOCAL_C_INCLUDES:= \
     $(TARGET_OUT_HEADERS)/gps.utils \
-    $(TARGET_OUT_HEADERS)/libloc_core \
-    $(TARGET_OUT_HEADERS)/libflp
+    $(TARGET_OUT_HEADERS)/libloc_core
 
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_RELATIVE_PATH := hw
