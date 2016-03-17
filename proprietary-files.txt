@@ -20,6 +20,10 @@ vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libaudcal.so
 
+# Bluetooth
+bin/hci_qcomm_init
+vendor/lib/libbtnv.so
+
 # Camera
 bin/mm-qcamera-daemon
 lib/hw/camera.vendor.msm8974.so
@@ -137,8 +141,19 @@ vendor/lib/libWVStreamControlAPI_L1.so
 vendor/lib/mediadrm/libdrmclearkeyplugin.so
 vendor/lib/mediadrm/libwvdrmengine.so
 
+# Sensors
+bin/sensors.qcom
+vendor/lib/hw/sensors.msm8974.so
+vendor/lib/libsensor1.so
+vendor/lib/libsensor_reg.so
+
 # GPS
 etc/izat.conf
+lib/libloc_api_v02.so
+lib/libloc_ds_api.so
+vendor/lib/libgeofence.so
+vendor/lib/libizat_core.so
+vendor/lib/liblbs_core.so
 
 # Graphics
 vendor/lib/egl/eglsubAndroid.so
@@ -177,11 +192,12 @@ bin/irsc_util
 -app/qcrilmsgtunnel/qcrilmsgtunnel.apk:app/qcrilmsgtunnel.apk
 -app/shutdownlistener/shutdownlistener.apk:app/shutdownlistener.apk
 bin/radish
+lib/librmnetctl.so
+vendor/lib/libsmemlog.so
+vendor/lib/libsystem_health_mon.so
+vendor/lib/libxml.so
 etc/permissions/qcnvitems.xml
 etc/permissions/qcrilhook.xml
-etc/data/dsi_config.xml
-etc/data/netmgr_config.xml
-etc/data/qmi_config.xml
 -framework/qcnvitems.jar
 -framework/qcrilhook.jar
 
