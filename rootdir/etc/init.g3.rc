@@ -16,8 +16,6 @@ on init
     mkdir /sns 0755 system system
     mkdir /mpt 0755 system system
 
-    # Support legacy paths
-    symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
     # Immersion (immvibed)
