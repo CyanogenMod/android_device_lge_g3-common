@@ -178,6 +178,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.g3 \
     init.g3.rc \
+    init.g3.power.rc \
     init.g3.usb.rc \
     init.msm8974.sensor.sh \
     init.qcom.sh \
