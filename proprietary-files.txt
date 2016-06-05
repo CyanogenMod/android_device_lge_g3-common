@@ -145,12 +145,15 @@ vendor/lib/libizat_core.so
 vendor/lib/liblbs_core.so
 
 # Graphics
+vendor/firmware/a330_pfp.fw
+vendor/firmware/a330_pm4.fw
 vendor/lib/egl/eglsubAndroid.so
 vendor/lib/egl/libEGL_adreno.so
 vendor/lib/egl/libGLESv1_CM_adreno.so
 vendor/lib/egl/libGLESv2_adreno.so
 vendor/lib/egl/libq3dtools_adreno.so
 vendor/lib/libadreno_utils.so
+vendor/lib/libbccQTI.so
 vendor/lib/libc2d30-a3xx.so
 vendor/lib/libC2D2.so
 vendor/lib/libCB.so
@@ -161,10 +164,6 @@ vendor/lib/librs_adreno_sha1.so
 vendor/lib/librs_adreno.so
 vendor/lib/libRSDriver_adreno.so
 vendor/lib/libsc-a3xx.so
-
-# Graphics firmware
-etc/firmware/a330_pfp.fw
-etc/firmware/a330_pm4.fw
 
 # Media
 vendor/lib/libI420colorconvert.so
