@@ -510,9 +510,6 @@ on charger
     start rmt_storage
     start irsc_util
 
-on property:init.svc.wpa_supplicant=stopped
-    stop dhcpcdc
-
 on property:ro.boot.emmc=true
     start rmt_storage
 
