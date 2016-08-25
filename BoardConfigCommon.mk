@@ -85,7 +85,6 @@ TARGET_PROVIDES_LIBLIGHT := true
 # Offmode Charging
 BOARD_CHARGING_CMDLINE_NAME := "androidboot.mode"
 BOARD_CHARGING_CMDLINE_VALUE := "chargerlogo"
-BOARD_HEALTHD_CUSTOM_CHARGER_RES := $(LOCAL_PATH)/charger/images
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
