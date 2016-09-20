@@ -520,12 +520,11 @@ on property:ro.boot.emmc=true
 on property:vold.decrypt=trigger_restart_framework
     start sensors
 
-on property:gsm.version.baseband=""
-    start baseband-sh
-
 on property:sys.boot_completed=1
     # enable slimport
     write /sys/devices/f9967000.i2c/i2c-0/0-0072/enable_irq 1
 
     # Disable LG screen sharpening
     write /sys/devices/virtual/graphics/fb0/sharpening 0
+
+    start baseband-sh
