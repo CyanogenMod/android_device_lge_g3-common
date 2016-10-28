@@ -109,9 +109,6 @@ on boot
     chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
     chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 
-    # For NFC
-    symlink /dev/pn547 /dev/pn544
-
     # Flashlight
     chown system system /sys/class/leds/torch-light/brightness
     chmod 0666 /sys/class/leds/torch-light/brightness
