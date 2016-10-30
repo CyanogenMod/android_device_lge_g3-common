@@ -1,2 +1,1 @@
-allow kernel sysfs_vibe:file relabelto;
 allow kernel sensors_persist_file:dir search;

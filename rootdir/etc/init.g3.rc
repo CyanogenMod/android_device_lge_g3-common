@@ -343,7 +343,7 @@ service baseband-sh /system/bin/sh /init.baseband.sh
 service hwaddrs /system/bin/hwaddrs
     class core
     user root
-    group system
+    group bluetooth wifi
     oneshot
 
 service btinit-sh /system/bin/sh /init.qcom.bt.sh
@@ -382,7 +382,7 @@ service qseecomd /system/bin/qseecomd
 service mpdecision /system/bin/mpdecision --avg_comp
     class main
     user root
-    group system
+    group system readproc
     disabled
 
 service thermal-engine /system/bin/thermal-engine
