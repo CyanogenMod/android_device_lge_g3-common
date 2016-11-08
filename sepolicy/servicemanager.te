@@ -1,0 +1,3 @@
+allow servicemanager thermal-engine:dir search;
+allow servicemanager thermal-engine:file { read open };
+allow servicemanager thermal-engine:process getattr;
