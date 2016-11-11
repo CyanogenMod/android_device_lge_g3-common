@@ -1,0 +1,1 @@
+allow fsck proc_swaps:file r_file_perms;
