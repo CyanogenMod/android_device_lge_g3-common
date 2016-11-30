@@ -1,3 +1,4 @@
+/dev/diag_lge                                       u:object_r:diag_device:s0
 /dev/pn547                                          u:object_r:nfc_device:s0
 /dev/rfkill                                         u:object_r:rfkill_device:s0
 /dev/ttyHSL1                                        u:object_r:cir_device:s0
@@ -7,6 +8,7 @@
 
 /sns(/.*)?                                          u:object_r:sensors_persist_file:s0
 
+/sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/gpuclk    u:object_r:sysfs_thermal:s0
 /sys/devices/virtual/input/lge_touch/tap_to_wake    u:object_r:sysfs_tap2wake:s0
 
 /system/bin/thermal-engine                          u:object_r:thermal-engine_exec:s0
