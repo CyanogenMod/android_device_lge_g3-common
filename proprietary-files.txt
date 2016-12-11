@@ -137,7 +137,6 @@ vendor/lib/libsensor1.so
 vendor/lib/libsensor_reg.so
 
 # GPS
-etc/izat.conf
 lib/libloc_api_v02.so
 lib/libloc_ds_api.so
 vendor/lib/libgeofence.so
